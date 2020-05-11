@@ -1,0 +1,130 @@
+<div class="popup-head clearfix">
+    {% if app.user.id != user.id %}
+
+
+        <div class="popuplogo"><a href="index.html"><img src="/images/logo2.png" alt=""></a></div>
+        <div class="popupmenu boxcont">
+            <input type="hidden" class="userId" value="{{ user.id }}">
+            <ul>
+                <li><a href="{{ path('messenger_dialog_open',{'userId': app.user.id, 'contactId': user.id}) }}"><span><img src="/images/popup-menu-icon7.png" alt=""></span> שלח לי הודעה</a></li>
+                {#<li><a href="#"><span><img src="/images/popup-menu-icon6.png" alt=""></span>צ’אט</a></li>#}
+                {#<li><a href="#"><span><img src="/images/popup-menu-icon5.png" alt=""></span>Like</a></li>#}
+                {#<li><a href="#"><span><img src="/images/popup-menu-icon4.png" alt=""></span>שלח קריצה</a></li>#}
+                <li><a href="#" class="add_to_fav"><span><img src="/images/popup-menu-icon3.png" alt=""></span> הוספה למועדפים</a></li>
+                <li><a href="#" class="add_to_back_list"><span><img src="/images/popup-menu-icon2.png" alt=""></span> חסימה</a></li>
+                <li><a href="#" class="report_abuse"><span><img src="/images/popup-menu-icon1.png" alt=""></span> דווח למערכת על <br> כרטיס לא תקין </a></li>
+            </ul>
+        </div>
+
+        <!-- end -->
+
+    {% endif %}
+</div>
+
+<div class="report-cont hidden">
+    <textarea placeholder="הערות"></textarea>
+    <input type="hidden" value="{{ user.id }}" class="memberId">
+    <div class="btn-wrapper">
+        <button class="btn" id="report">שלח/י</button>
+    </div>
+</div>
+
+
+<div class="report-success hidden">תודה! הודעה נשלחה לצוות גרינדייט.</div>
+<div class="popbox clearfix title_profile">
+    <h3 class="ttl clearfix">
+        <span>{{ user.username }}</span>
+        {% if user.isNew %}<img src="/images/main-pg-subtitle-icon.png" alt="" class="smimg"/>{% endif %}
+        {% if user.isPaying %}<img src="/images/main-pg-queen-icon.png" alt="" />{% endif %}
+    </h3>
+    <div class="desp">{{ user.age }}, {{ user.city.name }}</div>
+</div>
+<div class="popup-midsec clearfix">
+
+    <div class="popleft">
+        <div class="sgallery">
+            <div class="galcont">
+                <div class="galpic {% if user.gender.id == 1 %}male{% else %}female{% endif %}">
+
+                    <div class="ui active disabled dimmer inverted" id="main_photo_dimmer">
+                        <div class="ui text large loader disabled">טעינה</div>
+                    </div>
+
+                    <div><img src="" style="display: none;"></div>
+                </div>
+            </div>
+            <div class="galpreview">
+
+                {% set mainIsExists = false %}
+
+                {% set mainPhoto = user.getMainPhoto %}
+
+                {% set isActive = false %}
+
+                {% if mainPhoto is not null %}
+
+                    {% set mainIsExists = true %}
+
+                    <div data-pic="" class="active">
+                        <img src="">
+                        <input type="hidden" value="{{ mainPhoto.name }}">
+                    </div>
+                {% endif %}
+
+                {% for photo in user.photos %}
+                    {% if photo.isValid and not photo.isMain%}
+                        <div data-pic="" {% if not mainIsExists and not isActive %}{% set isActive = true %}class="active"{% endif %}>
+                            <img src="">
+                            <input type="hidden" value="{{ photo.name }}">
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {#
+                <div data-pic="/images/hp-article-img3.jpg">
+                    <img src="/images/hp-article-img3.jpg">
+                </div>
+                <div data-pic="/images/hp-article-img1.jpg">
+                    <img src="/images/hp-article-img1.jpg">
+                </div>
+                <div data-pic="/images/hp-article-img2.jpg">
+                    <img src="/images/hp-article-img2.jpg">
+                </div>
+                <div data-pic="/images/hodaot-girl-img.jpg" class="lastdiv">
+                    <img src="/images/hodaot-girl-img.jpg">
+                </div>
+                #}
+
+            </div>
+        </div>
+        <!-- end -->
+
+    </div>
+    <!-- popleft -->
+
+
+
+    {{ include ('frontend/user/user_data.html.twig') }}
+
+
+</div>
+<!-- end -->
+
+{% if app.user.id != user.id %}
+    <!-- BTM -->
+    <div class="popupbtm clearfix">
+        <div class="popupmenu clearfix boxcont">
+            <input type="hidden" class="userId" value="{{ user.id }}">
+            <ul>
+                <li><a href="{{ path('messenger_dialog_open',{'userId': app.user.id, 'contactId': user.id}) }}"><span><img src="/images/popup-menu-icon7.png" alt=""></span> שלח לי הודעה</a></li>
+                {#<li><a href="#"><span><img src="/images/popup-menu-icon6.png" alt=""></span>צ’אט</a></li>#}
+                {#<li><a href="#"><span><img src="/images/popup-menu-icon5.png" alt=""></span>Like</a></li>#}
+                {#<li><a href="#"><span><img src="/images/popup-menu-icon4.png" alt=""></span>שלח קריצה</a></li>#}
+                <li><a href="#" class="add_to_fav"><span><img src="/images/popup-menu-icon3.png" alt=""></span> הוספה למועדפים</a></li>
+                <li><a href="#" class="add_to_back_list"><span><img src="/images/popup-menu-icon2.png" alt=""></span> חסימה</a></li>
+                <li><a href="#" class="report_abuse bottom"><span><img src="/images/popup-menu-icon1.png" alt=""></span> דווח למערכת על <br> כרטיס לא תקין </a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- BTM -->
+{% endif %}

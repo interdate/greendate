@@ -1,0 +1,205 @@
+
+{% if errors %}
+    <div class="errors">
+        <div class="ui orange message">
+            <div class="content">
+                <div class="header">
+                    יש להשלים את השדות הבאים
+                </div>
+                <p>
+                    {{ form_errors(form.about) }}
+                    {{ form_errors(form.looking) }}
+                    {{ form_errors(form.veggieReasons) }}
+                    {{ form_errors(form.interests) }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+<div class="hmaformsec three">
+
+    <h3>יצירת פרופיל</h3>
+
+    <div class="field {% if form.about.vars.errors|length %}error{% endif %}">
+        <div class="label">
+            {{ form_label(form.about) }}
+            <div class="instr">
+            (מינימום 10 תווים)
+            </div>
+        </div>
+        <div class="textarea">{{ form_widget(form.about) }}</div>
+    </div>
+
+    <div class="field {% if form.looking.vars.errors|length %}error{% endif %}">
+        <div class="label">
+            {{ form_label(form.looking) }}
+            <div class="instr">
+                (מינימום 10 תווים)
+            </div>
+        </div>
+        <div class="textarea">{{ form_widget(form.looking) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.type) }}</div>
+        <div class="select">{{ form_widget(form.type) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.nutrition) }}</div>
+        <div class="select">{{ form_widget(form.nutrition) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label {% if form.veggieReasons.vars.errors|length %}error{% endif %}" style="margin-top: -3px">{{ form_label(form.veggieReasons) }}</div>
+
+        <div class="chkright">
+            <div class="checkboxes clearfix">
+                {% for veggieReason in form.veggieReasons %}
+                    <div class="ui checkbox chkbox">
+                        {{ form_widget(veggieReason) }}
+                        {{ form_label(veggieReason) }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.smoking) }}</div>
+        <div class="select">{{ form_widget(form.smoking) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.drinking) }}</div>
+        <div class="select">{{ form_widget(form.drinking) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.sport) }}</div>
+        <div class="select">{{ form_widget(form.sport) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.green) }}</div>
+        <div class="select">{{ form_widget(form.green) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.children) }}</div>
+        <div class="select">{{ form_widget(form.children) }}</div>
+    </div>
+
+    {#<div class="field">#}
+        {#<div class="label">{{ form_label(form.animals) }}</div>#}
+        {#<div class="select">{{ form_widget(form.animals) }}</div>#}
+    {#</div>#}
+
+    <div class="field">
+        <div class="label {% if form.animals.vars.errors|length %}error{% endif %}" style="margin-top: -3px">{{ form_label(form.animals) }}</div>
+
+        <div class="chkright">
+            <div class="checkboxes clearfix">
+                {% for animal in form.animals %}
+                    <div class="ui checkbox chkbox">
+                        {{ form_widget(animal) }}
+                        {{ form_label(animal) }}
+                       
+                    </div>
+
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label {% if form.interests.vars.errors|length %}error{% endif %}" style="margin-top: -3px">{{ form_label(form.interests) }}</div>
+
+        <div class="chkright">
+            <div class="checkboxes clearfix">
+                {% for interest in form.interests %}
+                    <div class="ui checkbox chkbox">
+                        {{ form_widget(interest) }}
+                        {{ form_label(interest) }}
+                        {#{ form_label(interest, null, {'label_attr': {'class': 'css-label'}}) }#}
+                    </div>
+
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.politicalAffiliation) }}</div>
+        <div class="select">{{ form_widget(form.politicalAffiliation) }}</div>
+    </div>
+
+
+
+
+    <h3>מראה חיצוני</h3>
+
+
+    <div class="field">
+        <div class="label">{{ form_label(form.height) }}</div>
+        <div class="select">{{ form_widget(form.height) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.body) }}</div>
+        <div class="select">{{ form_widget(form.body) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.eyes) }}</div>
+        <div class="select">{{ form_widget(form.eyes) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.hair) }}</div>
+        <div class="select">{{ form_widget(form.hair) }}</div>
+    </div>
+
+    <h3>עוד קצת עליי</h3>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.perfectDate) }}</div>
+        <div class="textarea">{{ form_widget(form.perfectDate) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.favoriteDish) }}</div>
+        <div class="textarea">{{ form_widget(form.favoriteDish) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.favoriteRestaurant) }}</div>
+        <div class="textarea">{{ form_widget(form.favoriteRestaurant) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.dinnerWith) }}</div>
+        <div class="textarea">{{ form_widget(form.dinnerWith) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.favoriteBooks) }}</div>
+        <div class="textarea">{{ form_widget(form.favoriteBooks) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.music) }}</div>
+        <div class="textarea">{{ form_widget(form.music) }}</div>
+    </div>
+
+    <div class="clr padd"></div>
+
+    <div class="field padd">
+        <input type="button"  class="nextstage" value="לשלב הבא" >
+        <input type="button"  class="return" value="חזרה" onclick="$('#prev_stage').click();">
+        <input type="submit" id="next_stage" class="hidden">
+        <input type="submit" id="prev_stage" class="hidden" name="flow_signUp_transition" value="back" formnovalidate="formnovalidate">
+    </div>
+</div>

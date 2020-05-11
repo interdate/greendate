@@ -1,0 +1,32 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block title %}{{ seo.title }}{% endblock %}
+{% block meta_description %}{{ seo.description }}{% endblock %}
+
+{% block content %}
+    <div class="midsec">
+{#        <a href="https://www.greendate.co.il/עמודים/ספידייט">#}
+{#            <img class="banner" src="/images/banners/small580-75.gif" style="width:100%;margin: 0 auto;" />#}
+{#        </a>#}
+        <h1>שאלות ותשובות</h1>
+        <div class="allforum">
+            <div class="forumbox">
+                {% for category in categories %}
+                    <div class="titlesec">{{ category.name }}</div>
+                    <div class="shelot cont">
+                        <ul>
+                            {% for faq in category.faq %}
+                                {% if faq.isActive %}
+                                    <li>
+                                        <a href="#" class="faqtitle"><span><strong>{{ faq.name }}</strong></span></a>
+                                        <div class="fcont"><span>{{ faq.content }}</span></div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

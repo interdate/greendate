@@ -1,0 +1,502 @@
+<script>
+
+
+    $(document).ready(
+        function () {
+
+
+
+        }
+    );
+
+
+</script>
+
+
+
+<h1 class="ui grey header right">
+    <i class="edit icon"></i>
+    <div class="content">
+        <span class="username">{{ user.username }}</span>
+        <div class="sub header">עריכת פרופיל</div>
+    </div>
+</h1>
+
+
+<div class="left close">
+    <i class="icon remove circle olive big " onclick="$.kfModal.close();"></i>
+</div>
+
+<div class="clear"></div>
+
+<div class="ui divider"></div>
+
+<div class="ui secondary menu">
+    <a class="item {% if tab == 1 %}active{% endif %}" data-tab="1">
+        {#<i class="sign in icon circular"></i>#}
+        פרטים
+    </a>
+    <a class="item {% if tab == 2 %}active{% endif %}" data-tab="2">
+        {#<i class="user icon circular"></i>#}
+        פרופיל
+    </a>
+    <a class="item {% if tab == 3 %}active{% endif %}" data-tab="3">
+        {#<i class="info icon circular"></i>#}
+        קצת עליי
+    </a>
+    <a class="item {% if tab == 4 %}active{% endif %}" data-tab="4">
+        {#<i class="info icon circular"></i>#}
+        אדמין
+    </a>
+</div>
+<div class="ui tab segment {% if tab == 1 %}active{% endif %}" data-tab="1">
+
+    {% set form = (edited_form != null and tab == 1) ? edited_form : form_1 %}
+
+    {% if form.username.vars.errors|length or form.email.first.vars.errors|length %}
+        <div class="errors">
+            <div class="ui red message">
+                <div class="content">
+                    <div class="header">
+                        יש להשלים את השדות הבאים
+                    </div>
+                    <p>
+
+                        {{ form_errors(form.username) }}
+                        {{ form_errors(form.email.first) }}
+
+
+                        {{ form_errors(form) }}
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <form id="form_1" onsubmit="return false;">
+
+        <div class="ui form">
+
+            <div class="ui large horizontal label {% if form.username.vars.errors|length %}red{% else %}grey{% endif %}">{{ form_label(form.username) }}</div>
+            <div class="field {% if form.username.vars.errors|length %}error{% endif %}">
+                {{ form_widget(form.username) }}
+            </div>
+
+            <div class="ui large horizontal label {% if form.email.first.vars.errors|length %}red{% else %}grey{% endif %}">{{ form_label(form.email.first) }}</div>
+            <div class="field {% if form.email.first.vars.errors|length %}error{% endif %}">
+                {{ form_widget(form.email.first) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.email.second) }}</div>
+                {{ form_widget(form.email.second) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.phone) }}</div>
+                {{ form_widget(form.phone) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.gender) }}</div>
+                {{ form_widget(form.gender) }}
+            </div>
+
+            {#
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.lookingGender) }}</div>
+                {{ form_widget(form.lookingGender) }}
+            </div>
+            #}
+
+            <div class="field birthday">
+                <div class="ui grey large horizontal label">{{ form_label(form.birthday) }}</div>
+                <div class="clear"></div>
+                <div class="right">{{ form_widget(form.birthday.year) }}</div>
+                <div class="right">{{ form_widget(form.birthday.month) }}</div>
+                <div class="right">{{ form_widget(form.birthday.day) }}</div>
+            </div>
+
+            <div class="clear"></div>
+
+            <button class="ui labeled icon green large button left" onclick="saveProfile({{ user.id }}, $('#form_1'), 1);">
+                <i class="save icon"></i>
+                לשמור
+            </button>
+
+            <div class="clear"></div>
+
+            {{ form_rest(form) }}
+
+
+        </div>
+
+
+
+    </form>
+
+</div>
+<div class="ui tab segment {% if tab == 2 %}active{% endif %}" data-tab="2">
+
+    {% set form = (edited_form != null and tab == 2) ? edited_form : form_2 %}
+
+    {% if form.purposes.vars.errors|length %}
+        <div class="errors">
+            <div class="ui red message">
+                <div class="content">
+                    <div class="header">
+                        יש להשלים את השדות הבאים
+                    </div>
+                    <p>
+                        {{ form_errors(form.purposes) }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <form id="form_2" onsubmit="return false;">
+
+        <div class="ui form">
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.region) }}</div>
+                {{ form_widget(form.region) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.city) }}</div>
+                {{ form_widget(form.city) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.relationshipStatus) }}</div>
+                {{ form_widget(form.relationshipStatus) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.occupation) }}</div>
+                {{ form_widget(form.occupation) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.education) }}</div>
+                {{ form_widget(form.education) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.religion) }}</div>
+                {{ form_widget(form.religion) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.sexOrientation) }}</div>
+                {{ form_widget(form.sexOrientation) }}
+            </div>
+
+            <div class="field">
+                <div class="ui large horizontal label {% if form.purposes.vars.errors|length %}red{% else %}grey{% endif %}">
+                    {{ form_label(form.purposes) }}
+                </div>
+            </div>
+
+            <div class="block">
+
+                {% for purpose in form.purposes %}
+
+                    <div class="ui checkbox four">
+                        {{ form_widget(purpose) }}
+                        {{ form_label(purpose) }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <div class="ui divider"></div>
+
+            <button class="ui labeled icon green large button left" onclick="saveProfile({{ user.id }}, $('#form_2'), 2);">
+                <i class="save icon"></i>
+                לשמור
+            </button>
+
+            <div class="clear"></div>
+
+            {{ form_rest(form) }}
+
+        </div>
+
+    </form>
+
+
+
+
+
+</div>
+<div class="ui tab segment {% if tab == 3 %}active{% endif %}" data-tab="3">
+
+    {% set form = (edited_form != null and tab == 3) ? edited_form : form_3 %}
+
+
+    <form id="form_3" onsubmit="return false;">
+
+        {% if form.about.vars.errors|length
+            or form.looking.vars.errors|length
+            or form.veggieReasons.vars.errors|length
+            or form.interests.vars.errors|length
+        %}
+            <div class="errors">
+                <div class="ui red message">
+                    <div class="content">
+                        <div class="header">
+                            יש להשלים את השדות הבאים
+                        </div>
+                        <p>
+                            {{ form_errors(form.about) }}
+                            {{ form_errors(form.looking) }}
+                            {{ form_errors(form.veggieReasons) }}
+                            {{ form_errors(form.interests) }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+
+        <div class="ui form">
+
+            <div class="ui large horizontal label {% if form.about.vars.errors|length %}red{% else %}grey{% endif %}">{{ form_label(form.about) }}</div>
+            <div class="field {% if form.about.vars.errors|length %}error{% endif %}">
+                {{ form_widget(form.about) }}
+            </div>
+
+            <div class="ui large horizontal label {% if form.looking.vars.errors|length %}red{% else %}grey{% endif %}">{{ form_label(form.looking) }}</div>
+            <div class="field {% if form.looking.vars.errors|length %}error{% endif %}">
+                {{ form_widget(form.looking) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.type) }}</div>
+                {{ form_widget(form.type) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.nutrition) }}</div>
+                {{ form_widget(form.nutrition) }}
+            </div>
+
+            <div class="field">
+                <div class="ui large horizontal label {% if form.veggieReasons.vars.errors|length %}red{% else %}grey{% endif %}">{{ form_label(form.veggieReasons) }}</div>
+                <div class="clear"></div>
+                <div class="block">
+                    {% for veggieReason in form.veggieReasons %}
+                        <div class="ui checkbox three">
+                            {{ form_widget(veggieReason) }}
+                            {{ form_label(veggieReason) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.smoking) }}</div>
+                {{ form_widget(form.smoking) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.drinking) }}</div>
+                {{ form_widget(form.drinking) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.sport) }}</div>
+                {{ form_widget(form.sport) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.green) }}</div>
+                {{ form_widget(form.green) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.children) }}</div>
+                {{ form_widget(form.children) }}
+            </div>
+
+            {#<div class="field">#}
+                {#<div class="ui grey large horizontal label">{{ form_label(form.animals) }}</div>#}
+                {#{{ form_widget(form.animals) }}#}
+            {#</div>#}
+
+            <div class="field">
+                <div class="ui large horizontal label {% if form.animals.vars.errors|length %}red{% else %}grey{% endif %}">{{ form_label(form.animals) }}</div>
+                <div class="clear"></div>
+                {% for animal in form.animals %}
+                    <div class="ui checkbox four">
+                        {{ form_widget(animal) }}
+                        {{ form_label(animal) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="field">
+                <div class="ui large horizontal label {% if form.interests.vars.errors|length %}red{% else %}grey{% endif %}">{{ form_label(form.interests) }}</div>
+                <div class="clear"></div>
+                {% for interest in form.interests %}
+                    <div class="ui checkbox four">
+                        {{ form_widget(interest) }}
+                        {{ form_label(interest) }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.politicalAffiliation) }}</div>
+                {{ form_widget(form.politicalAffiliation) }}
+            </div>
+
+            <h3 class="ui horizontal divider header">
+                <i class="unhide circular icon"></i>
+                מראה חיצוני
+            </h3>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.height) }}</div>
+                {{ form_widget(form.height) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.body) }}</div>
+                {{ form_widget(form.body) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.eyes) }}</div>
+                {{ form_widget(form.eyes) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.hair) }}</div>
+                {{ form_widget(form.hair) }}
+            </div>
+
+
+            <h3 class="ui horizontal divider header">
+                <i class="heart circular icon"></i>
+                עוד קצת עליי
+            </h3>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.perfectDate) }}</div>
+                {{ form_widget(form.perfectDate) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.favoriteDish) }}</div>
+                {{ form_widget(form.favoriteDish) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.favoriteRestaurant) }}</div>
+                {{ form_widget(form.favoriteRestaurant) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.dinnerWith) }}</div>
+                {{ form_widget(form.dinnerWith) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.favoriteBooks) }}</div>
+                {{ form_widget(form.favoriteBooks) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.music) }}</div>
+                {{ form_widget(form.music) }}
+            </div>
+
+            <button class="ui labeled icon green large button left" onclick="saveProfile({{ user.id }}, $('#form_3'), 3);">
+                <i class="save icon"></i>
+                לשמור
+            </button>
+
+            <div class="clear"></div>
+
+            {{ form_rest(form) }}
+
+        </div>
+
+
+    </form>
+
+
+
+</div>
+
+
+
+<div class="ui tab segment {% if tab == 4 %}active{% endif %}" data-tab="4">
+
+    {% set form = (edited_form != null and tab == 4) ? edited_form : form_4 %}
+
+
+    <form id="form_4" onsubmit="return false;">
+
+        <div class="ui form">
+
+            <div class="field">
+                <div class="ui grey large horizontal label">
+                    {{ form_label(form.isOnHomepage) }}
+                </div>
+                <div class="ui compact segment">
+                    <div class="ui slider fitted checkbox">
+                        {{ form_widget(form.isOnHomepage) }}
+                        <label></label>
+                    </div>
+                </div>
+            </div>
+
+            <h4 class="ui horizontal divider header">
+                <i class="setting grey icon"></i>
+            </h4>
+
+            <br>
+
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.adminComments) }}</div>
+                {{ form_widget(form.adminComments) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.banReason) }}</div>
+                {{ form_widget(form.banReason) }}
+            </div>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">{{ form_label(form.freezeReason) }}</div>
+                {{ form_widget(form.freezeReason) }}
+            </div>
+
+
+            <button class="ui labeled icon green large button left" onclick="saveProfile({{ user.id }}, $('#form_4'), 4);">
+                <i class="save icon"></i>
+                לשמור
+            </button>
+
+            <div class="clear"></div>
+
+            {{ form_rest(form) }}
+
+        </div>
+
+
+    </form>
+
+</div>
+
+

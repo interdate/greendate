@@ -1,0 +1,53 @@
+
+{% for user in users %}
+
+    {% set url = app.request.attributes.get('_route') == 'users_public_list' ? path('users_public_list_user', {'id': user.id}) : path('sign_up') %}
+
+    <div class="boxcont">
+        <input type="hidden" class="userId" value="{{ user.id }}">
+        <input type="hidden" class="userGenderId" value="{{ user.gender.id }}">
+        <div class="greyboxcont clearfix">
+            <div class="userimg">
+                <a href="{{ url }}">
+                    <img src="" alt="" class="resultsPhoto">
+                    <input type="hidden" value="{% if user.getMainPhoto is not null %}{{ user.getMainPhoto.name }}{% endif %}">
+                </a>
+                {% if user.isPaying %}<div class="queen-icon"></div>{% endif %}
+            </div>
+
+            <div class="lftcontbox clearfix">
+                <div class="onlinediv clearfix">
+                    {% if user.isOnline %}
+                        <a href="#">
+                            <div class="imgbox"><img src="/images/main-pg-online-icon.png" alt=""></div>
+                            <div class="statustitle">On<span>line</span></div>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="subtitle clearfix">
+                    <div class="subtitletext"><a href="{{ url }}">{{ user.username }}</a></div>
+                    <div class="imgicon">{% if user.isNew %}<img src="/images/main-pg-subtitle-icon.png" alt="">{% endif %}</div>
+                </div>
+
+                <div class="midcontdes">
+                    {{ user.age }}, {{ user.city.name }}
+                    <br>{{ user.relationshipStatus.name }}
+                    <br>{{ user.type.name }}
+                </div>
+                <div class="midcontdes">
+                    <strong>קצת עליי</strong>
+                    {{ user.about|length > 50 ? user.about|slice(0, 50) ~ '...' : user.about  }}
+                </div>
+            </div>
+        </div>
+
+        <div class="lightgrey clearfix">
+            <ul class="smlinks clearfix">
+
+            </ul>
+        </div>
+    </div>
+{% endfor %}
+
+
+

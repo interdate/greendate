@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        {% block meta %}{% endblock %}
+        <title>{% block title %}{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        {% block js %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta name="apple-mobile-web-app-title" content="GreenDate">
+	    <meta name="application-name" content="GreenDate">
+	    <link rel="apple-touch-icon" href="{{ asset('images/icon.png') }}">
+	    <link rel="icon" href="{{ asset('images/icon.png') }}">
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+        <style>
+        body .userway.userway_p7{
+	        top: 79px !important;
+		
+         }
+        </style>
+        <script type="text/javascript">
+		var _userway_config = {
+		    // position below will override position set via widget
+		    // position: 7,
+		    // uncomment the following line to override color set via widget 
+		    //color: '#053e67', 
+		    account: 'Ucgiiw876R',
+		    language: 'he',
+		};
+		</script>
+		<script type="text/javascript" src="https://cdn.userway.org/widget.js"></script>
+    </body>
+</html>

@@ -1,0 +1,88 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Settings
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Settings
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="report_email", type="string", length=255)
+     */
+    private $reportEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contact_email", type="string", length=255)
+     */
+    private $contactEmail;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="send_message_users_number", type="integer", nullable=true)
+     */
+    private $sendMessageUsersNumber;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="users_per_page", type="integer")
+     */
+    private $usersPerPage;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_charge", type="boolean")
+     */
+    private $isCharge;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="message_popularity_days_number", type="integer")
+     */
+    private $messagePopularityDaysNumber;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_considered_as_online_after_last_activity_minutes_number", type="integer")
+     */
+    private $userConsideredAsOnlineAfterLastActivityMinutesNumber;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="delete_messages_after_days_number", type="integer", nullable=true)
+     */
+    private $deleteMessagesAfterDaysNumber;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="user_considered_as_new_after_days_number", type="integer")
+     */
+    private $userConsideredAsNewAfterDaysNumber;
+
+
+}

@@ -1,0 +1,104 @@
+
+{% if errors %}
+    <div class="errors">
+        <div class="ui orange message">
+            <div class="content">
+                <div class="header">
+                    יש להשלים את השדות הבאים
+                </div>
+                <p>
+                    {{ form_errors(form.purposes) }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="hmaformsec two">
+
+    <div class="field">
+        <div class="label">{{ form_label(form.region) }}</div>
+        <div class="select">{{ form_widget(form.region) }}</div>
+    </div>
+
+    
+    <div class="field city">
+        <div class="label">{{ form_label(form.city) }}</div>
+        <div class="select city"><input class="city" type="text"></div>
+        <div class="dropdown"></div>
+    </div>
+
+    <div class="field hidden">
+        <div class="label">{{ form_label(form.city) }}</div>
+        <div class="select city">{{ form_widget(form.city) }}</div>
+    </div>
+
+    <div class="field hidden">
+        <div class="label">{{ form_label(form.city) }}</div>
+        <div class="select city">{{ form_widget(form.city) }}</div>
+    </div>
+
+    <script>
+
+        $(document).ready(function(){
+            $('#profileTwo_city option[value="1229"]').insertAfter($('#profileTwo_city option').eq(0));
+            $('#profileTwo_city option[value="509"]').insertAfter($('#profileTwo_city option').eq(1));
+            $('#profileTwo_city option[value="421"]').insertAfter($('#profileTwo_city option').eq(2));
+            $('#profileTwo_city option[value="130"]').insertAfter($('#profileTwo_city option').eq(3));
+            $('#profileTwo_city option[value="61"]').insertAfter($('#profileTwo_city option').eq(4));
+        });
+
+    </script>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.relationshipStatus) }}</div>
+        <div class="select">{{ form_widget(form.relationshipStatus) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.occupation) }}</div>
+        <div class="select">{{ form_widget(form.occupation) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.education) }}</div>
+        <div class="select">{{ form_widget(form.education) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.religion) }}</div>
+        <div class="select">{{ form_widget(form.religion) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.religionAffinity) }}</div>
+        <div class="select">{{ form_widget(form.religionAffinity) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.sexOrientation) }}</div>
+        <div class="select">{{ form_widget(form.sexOrientation) }}</div>
+    </div>
+
+    <div class="field {% if form.purposes.vars.errors|length %}error{% endif %}">
+        <div class="label">{{ form_label(form.purposes) }}</div>
+    </div>
+
+    <div class="field">
+
+        <div class="checkboxes">
+            {% for purpose in form.purposes %}
+                <div class="ui checkbox chkbox">
+                    {{ form_widget(purpose) }}
+                    {{ form_label(purpose) }}
+                </div>
+                {% if loop.index == 4 %}
+                    <div class="clr"></div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+<script src="/js/getCities.js" type="text/javascript"></script>

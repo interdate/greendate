@@ -1,0 +1,18 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block title %}{{ page.title }}{% endblock %}
+{% block meta_description %}{{ page.description }}{% endblock %}
+
+{% block content %}
+    <div class="midsec magazine">
+        <{{ page.headerType  }}>{{ page.name }}</{{ page.headerType }}>
+{#        <a href="https://www.greendate.co.il/עמודים/ספידייט">#}
+{#            <img class="banner" src="/images/banners/small580-75.gif" style="width:100%;margin: 0 auto;" />#}
+{#        </a>#}
+        <div class="magcont">
+            <div class="box dtl">
+               {{ page.content|raw }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

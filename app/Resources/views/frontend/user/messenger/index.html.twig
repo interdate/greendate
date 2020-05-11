@@ -1,0 +1,84 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block content %}
+
+
+
+    <div class="midsec">
+{#        <a href="https://www.greendate.co.il/עמודים/ספידייט">#}
+{#            <img class="banner" src="/images/banners/small580-75.gif" style="width:100%;margin: 0 auto;" />#}
+{#        </a>#}
+        <h1><a href="#">הודעות</a></h1>
+        <div class="cont">
+            <div class="hotdesc">
+
+               {#
+                <p>
+                    הינך יכול/ה לקרוא הודעות בשלושת המצבים הבאים<br/>
+                    1. יש לך מנוי<br/>
+                    2. לחבר/ה ששלח/ה לך את ההודעה יש מנוי<br/>
+                    3. נשארו לך נקודות לקריאת הודעה
+                </p>#}
+            </div>    
+            <!-- hotdesc end -->
+
+            <div id="dialogs">
+
+                <div class="hotlist">
+
+                    {% for dialog in dialogs %}
+
+                        {% set url = path('messenger_dialog_open',{'userId': app.user.id, 'contactId': dialog.id}) %}
+
+                        <div class="boxrpt clearfix" onclick="window.location.href='{{ url }}'">
+                            <div class="userimg">
+                                {% if dialog.photoName != '' %}
+                                    {#<a href="{{ url }}">#}
+                                        <img alt="">
+                                    {#</a>#}
+                                    <input type="hidden" value="{{ dialog.photoName }}">
+                                {% else %}
+                                    {#<a href="{{ url }}">#}
+                                        <img src="{{ dialog.noPhoto }}">
+                                    {#</a>#}
+                                {% endif %}
+                            </div>
+                            <div class="descbox">
+                                <div class="titlesec clearfix">
+                                    <h3>
+                                        {#<a href="{{ url }}">#}
+                                            {{ dialog.username }}
+                                        {#</a>#}
+                                    </h3>
+                                    <div class="datediv">{{ dialog.date|date("d/m/Y H:i") }}</div>
+                                </div>
+                                <div class="desctext">
+                                    {#<a href="{{ url }}">#}
+                                        {% if dialog.message|striptags|length > 60 %}
+                                            {{ dialog.message|striptags|slice(0,59)|raw ~ '...' }}
+                                        {% else %}
+                                            {{ dialog.message|striptags|raw }}
+                                        {% endif %}
+                                    {#</a>#}
+                                </div>
+                                {% if dialog.newMessagesNumber > 0 %}
+                                    <div class="newMessages" >{{ dialog.newMessagesNumber }}+</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <!-- end -->
+
+                    {% endfor %}
+
+                </div>
+                <!-- hotlist -->
+
+            </div>
+        </div>
+    </div>
+    <!-- midsec end -->
+
+
+{% endblock %}
+
+

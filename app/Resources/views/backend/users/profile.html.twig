@@ -1,0 +1,234 @@
+
+<h1 class="ui header right">
+    <i class="user icon"></i>
+    <div class="content">
+        <span class="username">{{ user.username }}</span>
+        <div class="sub header">פרופיל משמתמש</div>
+    </div>
+</h1>
+
+
+<div class="left close">
+    <i class="icon remove circle olive big " onclick="$.kfModal.close();"></i>
+</div>
+
+<div class="clear"></div>
+
+<div class="ui divider"></div>
+
+<div class="ui secondary menu">
+    <a class="item active" data-tab="1">
+        {#<i class="sign in icon circular"></i>#}
+        פרטים
+    </a>
+    <a class="item" data-tab="2">
+        {#<i class="user icon circular"></i>#}
+        פרופיל
+    </a>
+    <a class="item" data-tab="3">
+        {#<i class="info icon circular"></i>#}
+        קצת עליי
+    </a>
+    <a class="item" data-tab="4">
+        {#<i class="info icon circular"></i>#}
+        אדמין
+    </a>
+</div>
+<div class="ui tab segment active" data-tab="1">
+
+    <div class="ui large ribbon label">Ip of last entrance</div>
+    <p>{{ user.ip }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">שם משתמש</div>
+    <p>{{ user.username }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">אימייל</div>
+    <p>{{ user.email }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">טלפון</div>
+    <p>{{ user.phone }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">אני</div>
+    <p>{{ user.gender.name }}</p><div class="ui divider"></div>
+
+
+    {#<div class="ui large ribbon label">מחפש/ת</div>
+    <p>{{ user.lookingGender.name }}</p><div class="ui divider"></div>#}
+
+    <div class="ui large ribbon label">תאריך לידה</div>
+    <p>{{ user.birthday|date('d/m/Y') }}</p>
+
+</div>
+
+<div class="ui tab segment" data-tab="2">
+
+    <div class="ui large ribbon label">אזור מגורים</div>
+    <p>{{ user.region.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">עיר</div>
+    <p>{{ user.city.name }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">מצב משפחתי</div>
+    <p>{{ user.relationshipStatus.name }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">תחום עיסוק</div>
+    <p>{{ user.occupation.name }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">השכלה</div>
+    <p>{{ user.education.name }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">דת</div>
+    <p>{{ user.religion.name }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">העדפה</div>
+    <p>{{ user.sexOrientation.name }}</p><div class="ui divider"></div>
+
+
+    <div class="ui large ribbon label">כאן למטרת</div>
+    <p>
+        {% for purpose in user.purposes %}
+            {{ purpose.name }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+    </p>
+
+
+</div>
+<div class="ui tab segment" data-tab="3">
+
+    <div class="ui large ribbon label">קצת עלי</div>
+    <p>{{ user.about }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">מה אני מחפש/ת</div>
+    <p>{{ user.looking }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">אני</div>
+    <p>{{ user.type.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">תזונה</div>
+    <p>{% if user.nutrition != null %}{{ user.nutrition.name }}{% endif %}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">אני צמחוני /טבעוני כי</div>
+    <p>
+        {% for reason in user.veggieReasons %}
+            {{ reason.name }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+    </p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">הרגלי עישון</div>
+    <p>{{ user.smoking.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">הרגלי שתיה</div>
+    <p>{{ user.drinking.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">הרגלי ספורט</div>
+    <p>{{ user.sport.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">כמה ירוק אני</div>
+    <p>{{ user.green.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">ילדים</div>
+    <p>{{ user.children.name }}</p><div class="ui divider"></div>
+
+    {#<div class="ui large ribbon label">בעלי חיים</div>#}
+    {#<p>{{ user.animals.name }}</p><div class="ui divider"></div>#}
+
+    <div class="ui large ribbon label">בעלי חיים</div>
+    <p>
+        {% for animal in user.animals %}
+            {{ animal.name }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+    </p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">תחומי עניין</div>
+    <p>
+        {% for interest in user.interests %}
+            {{ interest.name }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+    </p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">השקפה פוליטית</div>
+    <p>{{ user.politicalAffiliation.name }}</p>
+
+
+
+    <h3 class="ui horizontal divider header">
+        <i class="unhide circular icon"></i>
+        מראה חיצוני
+    </h3>
+
+    <div class="ui large ribbon label">גובה</div>
+    <p>{{ user.height }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">מבנה גוף</div>
+    <p>{{ user.body.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">צבע עיניים</div>
+    <p>{{ user.eyes.name }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">צבע שיער</div>
+    <p>{{ user.hair.name }}</p>
+
+    <h3 class="ui horizontal divider header">
+        <i class="heart circular icon"></i>
+        עוד קצת עליי
+    </h3>
+
+    <div class="ui large ribbon label">הדייט המושלם עבורי הוא...</div>
+    <p>{{ user.perfectDate }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">מנה צמחונית אהובה...</div>
+    <p>{{ user.favoriteDish }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">מסעדה ידידותית לצמחונים שאני אוהב/ת...</div>
+    <p>{{ user.favoriteRestaurant }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">איזה אישיות הייתי מזמין לארוחת ערב?</div>
+    <p>{{ user.dinnerWith }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">הספרים האהובים עליי...</div>
+    <p>{{ user.favoriteBooks }}</p><div class="ui divider"></div>
+
+    <div class="ui large ribbon label">המוזיקה שאני שומע...</div>
+    <p>{{ user.music }}</p>
+
+</div>
+
+<div class="ui tab segment" data-tab="4">
+
+	<div class="ui large ribbon label">התראה על הודעה למייל</div>
+    <p>{% if user.isSentEmail %}כן{% else %}לא{% endif %}</p>
+    
+    <div class="ui large ribbon label">התראה על הודעה לטלפון (Push)</div>
+    <p>{% if user.isSentPush %}כן{% else %}לא{% endif %}</p>
+
+    <div class="ui large ribbon label">המשתמש מופיע בעמוד הכניסה</div>
+    <p>{% if user.isOnHomepage %}כן{% else %}לא{% endif %}</p>
+    <div class="ui divider"></div>
+
+    {% if user.adminComments|length %}
+        <div class="ui large ribbon label">הערות</div>
+        <p>{{ user.adminComments }}</p>
+        <div class="ui divider"></div>
+    {% endif %}
+
+    {% if user.banReason|length %}
+        <div class="ui large ribbon label">סיבת החסימה</div>
+        <p>{{ user.banReason }}</p>
+        <div class="ui divider"></div>
+    {% endif %}
+
+    {% if user.freezeReason|length %}
+        <div class="ui large ribbon label">סיבת ההקפאה</div>
+        <p>{{ user.freezeReason }}</p>
+    {% endif %}
+
+</div>
+
+<div class="clear"></div>

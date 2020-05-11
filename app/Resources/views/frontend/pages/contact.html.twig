@@ -1,0 +1,71 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block title %}צור קשר{% endblock %}
+{% block meta_description %}{% endblock %}
+
+{% block content %}
+    <div class="midsec magazine">
+        <h2>צור קשר</h2>
+{#        <a href="https://www.greendate.co.il/עמודים/ספידייט">#}
+{#            <img class="banner" src="/images/banners/small580-75.gif" style="width:100%;margin: 0 auto;" />#}
+{#        </a>#}
+        <div class="magcont">
+            <div class="box dtl">
+                <div class="harsama-midsec">
+
+                    {% if sent %}
+                        <br><div class="contact-success">תודה! הודעה נשלחה בהצלחה.</div>
+                    {% endif %}
+
+                    <form method="post" novalidate>
+
+                        <div class="errors hidden empty_fields">
+                            <div class="ui orange message">
+                                <div class="content">
+                                    <div class="header">
+                                        יש להשלים את השדות המסומנים
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="hmaformsec three">
+                            <div class="field_2">
+                                <div class="label">{{ form_label(form.email) }}</div>
+                                <div class="inputdiv">{{ form_widget(form.email) }}</div>
+                                <div class="clear"></div>
+                            </div>
+                            <br>
+
+                            <div class="field_2">
+                                <div class="label">{{ form_label(form.subject) }}</div>
+                                <div class="inputdiv">{{ form_widget(form.subject) }}</div>
+                                <div class="clear"></div>
+                            </div>
+                            <br>
+
+                            <div class="field_2">
+                                <div class="label">{{ form_label(form.text) }}</div>
+                                <div class="textarea">{{ form_widget(form.text) }}</div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <input type="submit" class="hidden" id="send">
+
+                        {{ form_rest(form) }}
+
+                    </form>
+
+                </div>
+
+                <br>
+
+                <div class="clearfix">
+                    <input type="button" value="שלח/י" class="free contact_submit">
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

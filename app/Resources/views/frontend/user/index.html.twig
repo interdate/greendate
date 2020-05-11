@@ -1,0 +1,81 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block content %}
+
+				<div class="midsec">
+					<div class="quicksrch mainQuickSearch">
+						<h3 class="tgl_mqs">חיפוש מהיר</h3>
+
+                        <form action="{{ path('user_search_results') }}" method="post" class="qs hidden">
+
+                            <div class="topfrm clearfix">
+                                <div class="leftcont">
+                                    <h5>{{ form_label(form.ageFrom) }}</h5>
+                                    <div class="select">{{ form_widget(form.ageFrom) }}</div>
+                                    <div class="smlabel">{{ form_label(form.ageTo) }}</div>
+                                    <div class="select">{{ form_widget(form.ageTo) }}</div>
+                                </div>
+
+                                <div class="rghtcont">
+                                    <h5>{{ form_label(form.region) }}</h5>
+
+                                    {% for region in form.region %}
+                                        <div class="ui checkbox region">
+                                            {{ form_widget(region) }}
+                                            {{ form_label(region) }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!-- topfrm end -->
+
+                            <div class="qbtmfrm clearfix">
+                                <h5>{{ form_label(form.type) }}</h5>
+
+                                {% for type in form.type %}
+                                    <div class="ui checkbox type">
+                                        {{ form_widget(type) }}
+                                        {{ form_label(type) }}
+                                    </div>
+                                {% endfor %}
+
+                                {{ form_widget(form.filter) }}
+
+                                <a class="free" href="#">חפשו</a>
+                                <input type="submit" class="hidden">
+                            </div>
+                            <!-- qbtmfrm end -->
+
+
+
+                        </form>
+
+                        <form action="{{ path('user_search_results') }}" method="post" class="qs hidden">
+                            <div class="btmform clearfix">
+                                <div class="lablediv">{{ form_label(form.username) }}</div>
+                                <div class="inputdiv">{{ form_widget(form.username) }}</div>
+                                <input type="hidden" id="quickSearch_filter" name="quickSearch[filter]" value="lastActivity">
+                                <a class="free" href="#">חפשו</a>
+                                <input type="submit" class="hidden">
+                            </div>
+
+                            <a href="{{ path('user_search_advanced') }}" class="adv-srch">חיפוש מתקדם</a>
+
+                        </form>
+
+
+
+					</div>
+					<!-- quicksrch end -->
+					
+{#					<a href="https://www.greendate.co.il/עמודים/ספידייט">#}
+{#						<img src="/images/banners/small580-75.gif" style="width:100%;margin: 0 auto;" />#}
+{#					</a>#}
+
+					<h1>חברים חדשים באתר</h1>
+
+					{{ include ('frontend/user/users_list.html.twig', {'users': newUsers}) }}
+
+				</div><!-- midsec end -->
+
+{% endblock %}

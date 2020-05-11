@@ -1,0 +1,47 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block content %}
+
+
+    <div class="midsec">
+        <h1>עריכת פרופיל</h1>
+        <div class="harsama-midsec">
+
+            <ul class="stepssec clearfix">
+                <li {% if tab == 1 %}class="completed"{% endif %}><a href="{{ path('user_profile', {'tab': 1}) }}"><span class="nos">1</span><span class="label">פרטים</span></a></li>
+                <li {% if tab == 2 %}class="completed"{% endif %}><a href="{{ path('user_profile', {'tab': 2}) }}"><span class="nos">2</span><span class="label">פרופיל</span></a></li>
+                <li {% if tab == 3 %}class="completed"{% endif %}><a href="{{ path('user_profile', {'tab': 3}) }}"><span class="nos">3</span><span class="label">קצת עליי</span></a></li>
+                <li {% if tab == 4 %}class="completed"{% endif %}><a href="{{ path('user_profile', {'tab': 4}) }}"><span class="nos">4</span><span class="label">תמונות</span></a></li>
+            </ul>
+
+            <form action="{{ path('user_profile', {'tab': tab}) }}" method="post" id="profile_form">
+
+                {% if form is defined %}
+                    {{ include ('frontend/user/profile/' ~ tab ~ '.html.twig', {'form': form}) }}
+                    {{ form_rest(form) }}
+                {% else %}
+                    {{ include ('frontend/user/profile/' ~ tab ~ '.html.twig', {'renderedCloudForm': renderedCloudForm}) }}
+                {% endif %}
+
+                <input type="submit" id="save_data" class="hidden">
+            </form>
+
+        </div>
+
+
+
+        {% if tab != 4 %}
+            <br>
+            <div class="clearfix"><input type="button" value="שמירה" class="free" onclick="$('#save_data').click();"></div>
+        {% endif %}
+    </div>
+    <!-- midsec end -->
+
+
+
+
+    {# sercformsec #}
+
+{% endblock %}
+
+

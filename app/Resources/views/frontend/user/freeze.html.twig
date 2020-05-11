@@ -1,0 +1,50 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block content %}
+	<script type="text/javascript">
+		function freeze_confirm(){
+			if(confirm("האם אתה בטוח?\r\nבלחיצה על 'אישור' החשבון יוקפא.\r\nכדי לבטל יש ללחוץ על 'ביטול'.\r\nניתן להפעיל מחדש חשבון מוקפא בכל שלב באמצעות כניסה לחשבון.")){ $('#save_data').click(); }
+		}
+	</script>
+	<style>
+        .red{
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+    <div class="midsec">
+
+        <h1>הקפאת חשבון</h1>
+
+        <form action="{{ app.request.requesturi }}" method="post">
+            <div class="harsama-midsec">
+                <div class="freeze_cont">
+                    <br>
+                    <div>
+                        לידיעתכם: הקפאת פרופיל גורמת לכך שכרטיסך לא יופיע באתר בתקופת ההקפאה, אך עדין יהיה לך כרטיס קיים שתוכל לחזור ולהשתמש בכל עת.
+                        כדי לבטל את ההקפאה יש לבצע כניסה לאתר עם שם משתמש וסיסמה. לאחר תקופה של הקפאה המערכת מסירה אוטומטית את החשבונות הלא פעילים שבאתר.
+                    </div>
+                    <div class="red">
+                        הקפאת חשבון אינה מבטלת את המנוי בתשלום במידה ויש לך כזה.
+                        כדי לבטל את המנוי בתשלום טרם ההקפאה יש לשלוח לנו מייל דרך עמוד צור קשר, ובו בקשה לביטול המנוי בתשלום.
+                        מנוי אשר נרכש דרך iTunes יש לבטל באופן עצמאי דרך חשבונכם באייטיונז.
+                    </div>
+
+
+                    <textarea id="freeze_account_reason" name="freeze_account_reason" placeholder="סיבת הקפאה"></textarea>
+                    <br>
+                </div>
+            </div>
+
+            <div class="clearfix">
+                <input type="button" value="הקפאה" class="free" onclick="freeze_confirm();">
+                <input type="submit" id="save_data" class="hidden">
+            </div>
+
+        </form>
+
+
+
+    </div><!-- midsec end -->
+
+{% endblock %}

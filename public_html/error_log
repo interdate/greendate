@@ -1,0 +1,50 @@
+[24-Feb-2016 19:35:14 Asia/Jerusalem] PHP Fatal error:  Call to a member function getName() on a non-object in /home/greendateweeco/src/AppBundle/Controller/Frontend/MessengerController.php on line 133
+[25-Feb-2016 13:10:24 Asia/Jerusalem] PHP Fatal error:  Call to a member function format() on a non-object in /home/greendateweeco/src/AppBundle/Controller/Frontend/MessengerController.php on line 83
+[25-Feb-2016 13:11:15 Asia/Jerusalem] PHP Fatal error:  Call to a member function format() on a non-object in /home/greendateweeco/src/AppBundle/Controller/Frontend/MessengerController.php on line 83
+[25-Feb-2016 13:12:25 Asia/Jerusalem] PHP Fatal error:  Call to a member function format() on a non-object in /home/greendateweeco/src/AppBundle/Controller/Frontend/MessengerController.php on line 83
+[25-Feb-2016 13:12:31 Asia/Jerusalem] PHP Fatal error:  Call to a member function format() on a non-object in /home/greendateweeco/src/AppBundle/Controller/Frontend/MessengerController.php on line 83
+[02-Mar-2016 12:59:57 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 12:59:58 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 12:59:59 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 12:59:59 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:00 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:01 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:02 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:03 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:04 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:05 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:07 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:08 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:09 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:10 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:11 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:12 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:13 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:14 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:15 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:17 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:18 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:20 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:21 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:23 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:25 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:27 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:29 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:31 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:34 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:36 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:37 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:40 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:41 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:43 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:45 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:47 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:50 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:51 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:53 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:55 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:57 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:58 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:00:59 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:01:04 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23
+[02-Mar-2016 13:01:09 Asia/Jerusalem] PHP Fatal error:  Class 'AppCache' not found in /home/greendateweeco/public_html/app.php on line 23

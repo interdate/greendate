@@ -1,0 +1,135 @@
+{% extends "frontend/layout.html.twig" %}
+
+{% block content %}
+
+
+
+
+    <style>
+
+
+
+
+        @media only screen and (max-width:1020px) {
+
+
+
+
+
+        }
+
+
+
+    </style>
+
+    <div class="send_message_area">
+
+        <div class="message_area">
+            <textarea></textarea>
+        </div>
+        <div class="send_button_area">
+            <div class="send" onclick="dialog.sendMessage($('.message_area textarea'));">
+                <div>
+                שלח/י
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+
+    <script>
+
+
+
+
+
+        /*
+        $(document).one('focus.textarea', '.auto_expand', function(){
+            var savedValue = this.value;
+            this.value = '';
+            this.baseScrollHeight = this.scrollHeight;
+            this.value = savedValue;
+        }).on('input.textarea', '.auto_expand', function(){
+            var minRows = this.getAttribute('data-min-rows')|0, rows;
+            this.rows = minRows;
+            console.log(this.scrollHeight , this.baseScrollHeight);
+            rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 17);
+            this.rows = minRows + rows;
+        });
+        */
+
+
+    </script>
+
+
+    <div class="midsec">
+       {# <h1><a href="#">הודעות</a></h1>#}
+
+        <div class="hotitle clearfix">
+            <a href="#popup1" class="f1 clearfix">
+                {% if contact.getMainPhoto != null  %}
+                    <div class="thumb">
+                        <img alt="">
+                        <input type="hidden" value="{{ contact.getMainPhoto.name }}">
+                    </div>
+                {% endif %}
+                <h3>
+                    שיחה עם
+                    {{ contact.username }}
+                </h3>
+            </a>
+            <input type="hidden" value="{{ contact.id }}">
+        </div>
+        <!-- end -->
+
+
+        <div class="hotcont">
+            <div id="dialog">
+                {% for message in history %}
+                    {% set class =  message.from == dialog.user.id ? 'user' : 'contact' %}
+                    {%
+                        set status = message.from == dialog.user.id
+                            ? message.isRead
+                                ? 'read'
+                                : 'unread'
+                            : ''
+                    %}
+
+                    {%
+                        set unreadMessage  = message.from == dialog.user.id
+                            ? message.isRead
+                                ? ''
+                                : '<input type="hidden" class="unreadMessage" value="' ~ message.id ~ '">'
+                    %}
+
+                    <div class="chatbox {{ class }} {{ status }} message messageSection" id="dialogMessageSection_{{ message.id }}">
+                        <h4>{{ message.text|replace({ '%PAYMENT_LINK%': path('user_payment') })|raw }}</h4>
+                        <div class="timerdiv dateTime">{{ message.dateTime }}</div>
+                    </div>
+                    {{ unreadMessage|raw }}
+                {% endfor %}
+            </div>
+
+            <div class="hotbtm clearfix dialogInput">
+                <div class="smileyicon" id="show_emoticons"><a><img src="/images/smiley.png" alt=""></a></div>
+                <textarea cols="5" rows="5" id="dialog_textarea" placeholder="תגובה"></textarea>
+                <div class="clearfix"><input type="button" value="שלח" class="btn" onclick="dialog.sendMessage($('.dialogInput textarea'));"></div>
+            </div>
+
+            <input type="hidden" value="{{ dialog.contact.id }}" id="contactId" />
+            <input type="hidden" value="{{ dialog.contact.nickName }}" id="contactNickname" />
+            <input type="hidden" value="{{ dialog.user.nickName }}" id="userNickname" />
+        </div>
+            <!-- hotcont end -->
+    </div>
+<!-- midsec end -->
+
+
+
+
+{% endblock %}
+

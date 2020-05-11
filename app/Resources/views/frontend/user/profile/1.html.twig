@@ -1,0 +1,62 @@
+{% if errors %}
+    <div class="errors">
+        <div class="ui orange message">
+            <div class="content">
+                <div class="header">
+                    יש להשלים את השדות הבאים
+                </div>
+                <p>
+                    {{ form_errors(form.username) }}
+                    {{ form_errors(form.email.first) }}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="hmaformsec">
+
+    <div class="field {% if form.username.vars.errors|length %}error{% endif %}">
+        <div class="label">{{ form_label(form.username) }}</div>
+        <div class="inputdiv">{{ form_widget(form.username) }}</div>
+    </div>
+
+    <div class="field {% if form.email.first.vars.errors|length %}error{% endif %}">
+        <div class="label">{{ form_label(form.email.first) }}</div>
+        <div class="inputdiv">{{ form_widget(form.email.first) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.email.second) }}</div>
+        <div class="inputdiv">{{ form_widget(form.email.second) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.phone) }}</div>
+        <div class="inputdiv">{{ form_widget(form.phone) }}</div>
+    </div>
+{#
+
+    <div class="field">
+        <div class="label">{{ form_label(form.gender) }}</div>
+        <div class="select">{{ form_widget(form.gender) }}</div>
+    </div>
+
+    <div class="field">
+        <div class="label">{{ form_label(form.lookingGender) }}</div>
+        <div class="select">{{ form_widget(form.lookingGender) }}</div>
+    </div>
+
+#}
+    <div class="field">
+        <div class="label">{{ form_label(form.birthday) }}</div>
+        <div class="select s2">{{ form_widget(form.birthday.year) }}</div>
+        <div class="select s2">{{ form_widget(form.birthday.month) }}</div>
+        <div class="select s2">{{ form_widget(form.birthday.day) }}</div>
+    </div>
+
+</div>
+
+
+
+

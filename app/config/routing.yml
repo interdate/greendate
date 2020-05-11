@@ -1,0 +1,23 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+app_api:
+    type:     rest
+    prefix:   /api
+    resource: "api_routes.yml"
+
+open_api:
+    type:     rest
+    prefix:   /open_api
+    resource: "open_api_routes.yml"
+
+#open_api_v2:
+#    type:     rest
+#    prefix:   /v2
+#    resource: AppBundle\Controller\Api\V2\OpenController
+#    name_prefix:  api_2_open
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc

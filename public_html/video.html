@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PeerConnection with an websocket</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <style>
+        #localVideo,#remoteVideo{
+            width: calc(100% - 2px);
+            height: 300px;
+            border: 1px #000 solid;
+        }
+    </style>
+</head>
+
+<body>
+<video id="localVideo" autoplay playsinline muted ></video>
+<!--<video id="miniVideo" width="100" height="150" autoplay playsinline muted></video>-->
+<video id="remoteVideo" autoplay playsinline></video>
+<div class="box">
+    <button id="startButton" style="display: none;">Start</button>
+    <button id="callButton">Call</button>
+    <button id="hangupButton">Hang Up</button>
+</div>
+<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script type="text/javascript">
+    'use strict';
+    //variables
+    var localStream,startTime, miniVideo,initiator,started,remoteStream,timeout;
+    var pc,pc2;
+    var room = 0;
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var user_id = urlParams.get('user_id');
+    var user_to = urlParams.get('user_to');
+    //const startButton = document.getElementById('startButton');
+    const callButton = document.getElementById('callButton');
+    const hangupButton = document.getElementById('hangupButton');
+    callButton.disabled = true;
+    hangupButton.disabled = false;
+    //startButton.addEventListener('click', start);
+    callButton.addEventListener('click', call);
+    hangupButton.addEventListener('click', hangup);
+
+    const localVideo = document.getElementById("localVideo");
+    //miniVideo = document.getElementById("miniVideo");
+    const remoteVideo = document.getElementById("remoteVideo");
+    localVideo.addEventListener('loadedmetadata', function() {
+        console.log(`Local video videoWidth: ${this.videoWidth}px,  videoHeight: ${this.videoHeight}px`);
+    });
+
+    remoteVideo.addEventListener('loadedmetadata', function() {
+        console.log(`Remote video videoWidth: ${this.videoWidth}px,  videoHeight: ${this.videoHeight}px`);
+    });
+
+    remoteVideo.addEventListener('resize', () => {
+        console.log(`Remote video size changed to ${remoteVideo.videoWidth}x${remoteVideo.videoHeight}`);
+        // We'll use the first onsize callback as an indication that video has started
+        // playing out.
+        if (startTime) {
+            const elapsedTime = window.performance.now() - startTime;
+            console.log('Setup time: ' + elapsedTime.toFixed(3) + 'ms');
+            startTime = null;
+        }
+    });
+
+    function createPeerConnection(){
+        var pc_config = {"iceServers": [
+                {
+                    urls: "stun:cloudtrace.googleapis.com"
+                },
+                // {"url": "stun:stun.l.google.com:19302"},
+                // {"url": "stun:cloudtrace.googleapis.com"},
+                // {
+                //     "url":"turn:numb.viagenie.ca:3478",
+                //     "username":"pavel@interdate-ltd.co.il",
+                //     "credential":"interdate12"
+                // },
+            ]};
+        var pc_constraints = {"optional": [{"DtlsSrtpKeyAgreement": true}]};
+        //pc_constraints
+        pc = new RTCPeerConnection(pc_config, pc_constraints);
+        //pc.onicecandidate = onIceCandidate;
+        pc.addEventListener('icecandidate', e => onIceCandidate(pc, e));
+        //pc.onaddstream = onRemoteStreamAdded;
+        //pc.addEventListener('track', onRemoteStreamAdded);
+        //pc.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc, e));
+
+        //pc2 = new RTCPeerConnection(pc_config);
+        console.log('Created remote peer connection');
+        //pc2.addEventListener('icecandidate', e => onIceCandidate(pc2, e));
+        pc.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc, e));
+        //pc2.addEventListener('iceconnectionstatechange', e => onIceStateChange(pc2, e));
+        pc.addEventListener('track', onRemoteStreamAdded);
+        initiator = true;
+    }
+
+    function onIceStateChange(pc, event) {
+        if (pc) {
+            console.log(`pc ICE state: ${pc.iceConnectionState}`);
+            console.log('ICE state change event: ', event);
+        }
+    }
+
+    function hangup() {
+        console.log('Ending call');
+        sendMessage({type:"bye"});
+        pc.close();
+        pc = null;
+        remoteStream = false;
+        createPeerConnection();
+    }
+
+    function initialize() {
+        //получение элементов страницы для последующей вставки или удаления видео потока
+        createPeerConnection();
+
+
+
+
+        //получение потока локального видео назначение его нужному элементу на странице и если все удачно то вызов PeerConnection
+        //start();
+        setTimeout(function () {
+            start();
+        }, 500)
+    }
+
+    async function start() {
+        console.log('Requesting local stream');
+        //startButton.disabled = true;
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({audio: true, video: true});
+            console.log('Received local stream');
+            localVideo.srcObject = stream;
+            localStream = stream;
+            //console.log(URL.createObjectURL(stream));
+            callButton.disabled = false;
+            localStream.getTracks().forEach((track) => {
+                pc.addTrack(track, localStream);
+            });
+            // pc.addTrack(stream.getVideoTracks()[0], stream);
+            // pc.addTrack(stream.getAudioTracks()[0], stream);
+            started = true;
+
+            console.log('Added local stream to pc');
+            // createPeerConnection();
+            // localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
+            // //pc.addStream(localStream);
+            // started = true;
+            // if (initiator){
+            //     //pc.createOffer(setLocalAndSendMessage, null, {"optional": [], "mandatory": {"MozDontOfferDataChannel": true}});
+            //     createOffer();
+            // }
+            //
+            if(user_to == 111) {
+                setTimeout(function () {
+                    call();
+                },500);
+
+            }
+            if (!timeout) repeat();
+
+        } catch (e) {
+            alert(`getUserMedia() error: ${e.name}`);
+        }
+    }
+
+    async function call() {
+        //createPeerConnection();
+        console.log('started');
+        if(!pc || pc === null){
+            createPeerConnection();
+            start();
+        }
+        // if(!pc || pc === null){
+        //     location.reload();
+        // }
+        createOffer();
+        if(!remoteStream) {
+            setTimeout(function () {
+                call();
+            }, 1500);
+        }
+    }
+
+    function onCreateSessionDescriptionError(error) {
+        console.log(`Failed to create session description: ${error.toString()}`);
+
+    }
+
+    function sendMessage(message) {
+        var msgString = JSON.stringify(message);
+        console.log('C->S: ' + msgString);
+        console.log(message);
+        var d = new Date();
+        var last = Date.parse(d.toGMTString())/1000;
+        $.ajax({
+            type: "POST",
+            url: '/open_api/v2/videos',	//https://cors-anywhere.herokuapp.com/
+            dataType: "json",
+            headers: {
+                'Accept': '*/*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Credentials': 'true'
+            },
+            data: {
+                room: room,
+                user_id: user_id,
+                user_to: user_to,
+                last: last,
+                mess: msgString
+            },
+            success: function(data){
+                //sendMessage({});
+                console.log(data);
+                room = data.room;
+                console.log(['data.msg', data.msg]);
+                for (var res in data.msg){
+                    var msg = data.msg[res];
+                    processSignalingMessage(msg);
+                }
+
+            }
+        });
+
+
+    }
+
+    function repeat() {
+        timeout = setTimeout(repeat, 1000);
+        sendMessage({});
+    }
+
+    async function onIceCandidate(pcon, event) {
+        console.log("Start of candidates.");
+        console.log(event.candidate);
+        //console.log(event.candidate.toJSON());
+        if (event.candidate) {
+            sendMessage({type: 'candidate',
+                label: event.candidate.sdpMLineIndex,
+                id: event.candidate.sdpMid,
+                candidate: event.candidate.toJSON()});
+            // try {
+            //     //await (getOtherPc(pcon).addIceCandidate(event.candidate));
+            // } catch (e) {
+            //     //onAddIceCandidateError(pcon, e);
+            // }
+            console.log(`pc ICE candidate:\n${event.candidate ? event.candidate.candidate : '(null)'}`);
+            await pc.addIceCandidate(event.candidate);
+        } else {
+            console.log("End of candidates.");
+        }
+    }
+
+    function getName(pcon) {
+        return (pcon === pc) ? 'pc' : 'pc2';
+    }
+
+    // function getOtherPc(pcon) {
+    //     return (pcon === pc) ? pc2 : pc;
+    // }
+
+    function onRemoteStreamAdded(event) {
+        //remoteVideo.src = window.URL.createObjectURL(event.stream);
+        console.log('Add stream');
+        console.log(event.streams[0]);
+        remoteStream = event.streams[0];
+        remoteVideo.srcObject = event.streams[0];//remoteStream;
+        console.log(event);
+    }
+
+    async function setLocalAndSendMessage(sessionDescription, pcon) {
+        // функция preferOpus устанавливает аудиокодек.
+        //sessionDescription.sdp = preferOpus(sessionDescription.sdp);
+        try {
+            // console.log(sessionDescription);
+            // sessionDescription.sdp = preferOpus(sessionDescription.sdp);
+            await pcon.setLocalDescription(sessionDescription);
+            sendMessage(sessionDescription);
+        } catch (e) {
+            onCreateSessionDescriptionError(e);
+        }
+    }
+
+    async function createOffer(){
+        try {
+            console.log('pc createOffer start');
+            /* {"optional": [], "mandatory": {"MozDontOfferDataChannel": true}} */
+            const offer = await pc.createOffer({
+                "optional": [],
+                "mandatory": {"MozDontOfferDataChannel": true}
+            });
+            setLocalAndSendMessage(offer, pc);
+            //setRemoteDesc(offer, pc2)
+        } catch (e) {
+            onCreateSessionDescriptionError(e);
+        }
+    }
+
+    async function setRemoteDesc(msg, pcon){
+        try{
+            await pcon.setRemoteDescription(new RTCSessionDescription(msg));
+        }catch (e) {
+            onCreateSessionDescriptionError(e);
+        }
+    }
+
+    async function createAnswer(){
+        try {
+            const answer = await pc.createAnswer();
+            setLocalAndSendMessage(answer,pc);
+            //await pc.setRemoteDescription(answer);
+
+        } catch (e) {
+            onCreateSessionDescriptionError(e);
+        }
+    }
+
+    function processSignalingMessage(message) {
+        // В функции проверяются разные варианты ответов и в зависимости от типа ответа выполняется соответствующее действие.
+        // в основном это вызов одного из методов peerСonnection
+        console.log(message);
+        var msg = message;//JSON.parse(message);
+
+        console.log('Process signaling message: ' + msg);
+
+        if(!pc || pc === null){
+            createPeerConnection();
+            start();
+        }
+
+        if (msg.type === 'offer') {
+
+            setRemoteDesc(msg,pc);
+            if (started){
+                start();
+                createOffer();
+            }
+            //setLocalDesc(msg,pc2);
+            createAnswer();
+
+        } else if (msg.type === 'answer' && started) {
+            setRemoteDesc(msg,pc);
+            //setLocalDesc(msg,pc2);
+        } else if (msg.type === 'candidate' && started) {
+            // var candidate = new RTCIceCandidate({sdpMLineIndex:msg.label, candidate:msg.candidate});
+            // pc2.addIceCandidate(candidate);
+            addCandidate(msg);
+        } else if (msg.type === 'bye' && started) {
+            hangup();
+        }
+    }
+
+    async function addCandidate(msg) {
+        //var candidate = new RTCIceCandidate({sdpMLineIndex:msg.label, candidate:msg.candidate});
+        var candidate = new RTCIceCandidate(msg.candidate);
+        await pc.addIceCandidate(candidate);
+    }
+
+    var preferOpus = function(sdp) {
+        var sdpLines = sdp.split('\r\n');
+
+        for (var i = 0; i < sdpLines.length; i++) {
+            if (sdpLines[i].search('m=audio') !== -1) {
+                var mLineIndex = i;
+                break;
+            }
+        }
+
+        if (mLineIndex === null) return sdp;
+
+        for (i = 0; i < sdpLines.length; i++) {
+            if (sdpLines[i].search('opus/48000') !== -1) {
+                var opusPayload = extractSdp(sdpLines[i], /:(\d+) opus\/48000/i);
+                if (opusPayload)
+                    sdpLines[mLineIndex] = setDefaultCodec(sdpLines[mLineIndex], opusPayload);
+                break;
+            }
+        }
+
+        sdpLines = removeCN(sdpLines, mLineIndex);
+
+        sdp = sdpLines.join('\r\n');
+        return sdp;
+    };
+
+    var extractSdp = function(sdpLine, pattern) {
+        var result = sdpLine.match(pattern);
+        return (result && result.length == 2)? result[1]: null;
+    };
+
+    var setDefaultCodec = function(mLine, payload) {
+        var elements = mLine.split(' ');
+        var newLine = new Array();
+        var index = 0;
+        for (var i = 0; i < elements.length; i++) {
+            if (index === 3) newLine[index++] = payload;
+            if (elements[i] !== payload) newLine[index++] = elements[i];
+        }
+        return newLine.join(' ');
+    };
+
+    var removeCN = function(sdpLines, mLineIndex) {
+        var mLineElements = sdpLines[mLineIndex].split(' ');
+        for (var i = sdpLines.length-1; i >= 0; i--) {
+            var payload = extractSdp(sdpLines[i], /a=rtpmap:(\d+) CN\/\d+/i);
+            if (payload) {
+                var cnPos = mLineElements.indexOf(payload);
+                if (cnPos !== -1) mLineElements.splice(cnPos, 1);
+                sdpLines.splice(i, 1);
+            }
+        }
+        sdpLines[mLineIndex] = mLineElements.join(' ');
+        return sdpLines;
+    };
+
+    //setTimeout(initialize, 1);
+    initialize();
+</script>
+</body>
+</html>

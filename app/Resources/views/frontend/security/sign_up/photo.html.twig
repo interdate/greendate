@@ -1,0 +1,55 @@
+<div class="hmaformsec three">
+    <h3>הוספת תמונה</h3>
+
+    <input type="hidden" id="save_photo_data_url" value="{{ path('user_photo_data') }}">
+    <input type="hidden" id="photos_url" value="{{ path('sign_up_photos') }}">
+    <input type="hidden" id="mainPhotoAlreadyExists" value="0">
+
+
+    <div class="harsm4 clearfix">
+
+        <div class="rightinfo">
+            <div class="browseupload">
+
+                <div class="cloudinaryForm hidden">
+                    {{ renderedCloudForm|raw }}
+                </div>
+
+                <input type="button" class="browsebutt" value="עיון" onclick="$('.cloudinaryForm input[type=file]').click();">
+                <input type="text" class="browseinput" value="" onclick="$('.cloudinaryForm input[type=file]').click();">
+                {#<input type="button" class="uploadphoto" value="העלאת תמונה" onclick="$('#upload_photo').click();"> #}
+
+                <div class="clr"></div>
+                <div class="ui indicating progress uploadPhotoProgress">
+                    <div class="bar" id="upload_photo_progress"></div>
+                    <div class="label" id="upload_photo_label">העלאה: <span>0</span>%</div>
+                </div>
+
+            </div>
+
+            <div class="descp">
+
+                אם נתקלת בבעיה בהעלאת תמונה לאתר, באפשרותך לשלוח תמונה לכתובת:תמונה לכתובת: 
+                <br/>
+                <a href="mailto:webmaster@GreenDate.co.il">webmaster@greendate.co.il</a><br/> במייל יש לציין את כתובת הדואל עמה נרשמת לאתר, וסיסמה. </div>
+
+            <h5>הקריטריונים לאישור התמונה</h5>
+
+            <ul>
+                <li>התמונה חייבת להיות תמונה שלך</li>
+                <li>יש להעלות תמונה איכותית וברורה, הכוללת פנים</li>
+                <li>אין להעלות תמונות בעירום חלקי או מלא</li>
+                <li>אין להעלות תמונות עם ילדים</li>
+            </ul>
+        </div>
+        <div class="leftproimage"><img src="/images/harshama-profile-pic.jpg" alt=""/></div>
+    </div>
+
+    <div class="clr padd"></div>
+
+    <div class="field padd">
+        <input type="button"  class="nextstage skipstep" value="דלג/י על השלב" onclick="window.location.href='{{ path('homepage') }}'">
+        {#<input type="button"  class="return" value="חזרה">#}
+    </div>
+</div>
+<!-- hmaformsec end -->

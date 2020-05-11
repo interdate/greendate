@@ -1,0 +1,25 @@
+
+app_api_v1_user:
+    type: rest
+    prefix: /v1
+    resource: AppBundle\Controller\Api\V1\UserController
+    name_prefix:  api_1_user
+
+app_api_v1_messenger:
+    type: rest
+    prefix: /v1
+    resource: AppBundle\Controller\Api\V1\MessengerController
+    name_prefix:  api_1_messenger
+
+app_api_v2_user:
+    type: rest
+    prefix: /v2
+    resource: AppBundle\Controller\Api\V2\UserController
+    name_prefix:  api_2_user
+
+app_api_v2_messenger:
+    type: rest
+    prefix: /v2
+    resource: AppBundle\Controller\Api\V2\MessengerController
+    name_prefix:  api_2_messenger
+

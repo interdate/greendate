@@ -1,0 +1,101 @@
+<div class="hmaformsec three">
+
+    <input type="hidden" id="save_photo_data_url" value="{{ path('user_photo_data') }}">
+    <input type="hidden" id="photos_url" value="{{ path('user_profile', {'tab': 4}) }}">
+    <input type="hidden" id="mainPhotoAlreadyExists" value="{% if app.user.photos|length %}1{% else %}0{% endif %}">
+
+    {% for photo in app.user.photos %}
+        <input type="hidden" class="photoName" value="{{ photo.name }}__{{ photo.id }}__{{ photo.isMain }}__{{ photo.isValid }}">
+    {% endfor %}
+
+    <div class="photos"></div>
+
+    <div class="ui small basic modal">
+        <div class="ui icon header">
+            <i class="trash icon"></i>
+            למחוק תמונה?
+        </div>
+        <div class="content"><p></p></div>
+        <div class="ui center aligned grid">
+            <div class="actions">
+                <div class="ui red basic cancel inverted button">
+                    <i class="remove icon"></i>
+                    לא
+                </div>
+                <div class="ui green ok inverted button">
+                    <i class="checkmark icon"></i>
+                    כן
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="harsm4 harsm5">
+        <div class="browseupload clearfix" style="width:85%;">
+
+            <div class="cloudinaryForm hidden">
+                {{ renderedCloudForm|raw }}
+            </div>
+
+            <input type="button" class="browsebutt" value="עיון" onclick="$('.cloudinaryForm input[type=file]').click();">
+            <input type="text" class="browseinput" value="" onclick="$('.cloudinaryForm input[type=file]').click();">
+        </div>
+
+        <div class="clr"></div>
+
+
+
+        <div class="ui indicating progress uploadPhotoProgress" style="width:83%;">
+            <div class="bar" id="upload_photo_progress"></div>
+            <div class="label" id="upload_photo_label">העלאה: <span>0</span>%</div>
+        </div>
+
+
+        <div class="descp">
+            {#
+            יש באפשרותך להעלות עד 4 תמונות. אפשר להעלות תמונות מסוג JPG בלבד.<br/>
+            #}
+            אם נתקלת בבעיה בהעלאת תמונה לאתר, באפשרותך לשלוח תמונה לכתובת: 
+            <br/>
+
+            <a href="mailto:webmaster@GreenDate.co.il">webmaster@greendate.co.il</a><br/> במייל יש לציין את כתובת הדואל עמה נרשמת לאתר, וסיסמה.
+        </div>
+
+        <h5>הקריטריונים לאישור התמונה</h5>
+
+        <ul>
+            <li>התמונה חייבת להיות תמונה שלך</li>
+            <li>יש להעלות תמונה איכותית וברורה, הכוללת פנים</li>
+            <li>אין להעלות תמונות בעירום חלקי או מלא</li>
+            <li>אין להעלות תמונות עם ילדים</li>
+        </ul>
+    </div>
+
+
+</div>
+<!-- hmaformsec end -->
+
+
+<div id="photo_template" class="hidden">
+    <div class="harsm5 clearfix photo" id="[PHOTO_NAME]">
+        <div class="imgbox"></div>
+        <div class="leftdesc">
+            <ul class="ultitle clearfix">
+                <li class="col1">תמונה ראשית</li>
+                <li class="col3">סטטוס</li>
+                <li class="col4"></li>
+            </ul>
+
+            <ul class="ulrow clearfix">
+                <li class="col1">
+                    <div class="ui toggle checkbox mainPhoto">
+                        <input type="radio" name="radio" value="[PHOTO_ID]" [MAIN]>
+                        <label></label>
+                    </div>
+                </li>
+                <li class="col3">[STATUS]</li>
+                <li class="col4"><a href="#" class="removePhoto" id="[PHOTO_ID]">מחק/י</a></li>
+            </ul>
+        </div>
+    </div>
+</div>

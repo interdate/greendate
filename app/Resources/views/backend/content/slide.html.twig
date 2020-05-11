@@ -1,0 +1,170 @@
+
+{% block content %}
+
+    <script src="{{ asset('libs/cloudinary/jquery.ui.widget.js') }}"></script>
+    <script src="{{ asset('libs/cloudinary/jquery.iframe-transport.js') }}"></script>
+    <script src="{{ asset('libs/cloudinary/jquery.fileupload.js') }}"></script>
+    <script src="{{ asset('libs/cloudinary/jquery.cloudinary.js') }}"></script>
+    
+    <script>
+        
+        $(document).ready(function(){
+
+            $.cloudinary.config({ cloud_name: 'greendate', api_key: '333193447586872'});
+            $('.ui.progress').hide();
+
+            if($('#slide_imageName').val().length > 0){
+                var url = $.cloudinary.url($('#slide_imageName').val(), { width: 610, radius: 3, crop: 'fill' });
+                $('.slide_image').find('img').attr('src',url);
+            }
+
+            $('.cloudinary-fileupload').bind('fileuploadstart', function(e, data) {
+                $('.ui.progress').show();
+                $('.upload_photo button').addClass("loading");
+            });
+
+            $('.cloudinary-fileupload').bind('fileuploadprogress', function(e, data) {
+                var value = Math.round((data.loaded * 100.0) / data.total);
+                $('.ui.progress').progress({
+                    percent: value,
+                });
+                $('#upload_photo_label span').text(value);
+            });
+
+            $('.cloudinary-fileupload').bind('cloudinarydone', function(e, data) {
+                //console.log(JSON.stringify(data));
+                $('.upload_photo button').removeClass("loading");
+                $('.ui.progress').hide();
+                $('#slide_imageName').val(data.result.public_id);
+                var url = $.cloudinary.url(data.result.public_id, { width: 610, radius: 5, crop: 'fill' });
+                $('.slide_image').find('img').attr('src',url);
+                return true;
+            });
+        });
+        
+    </script>
+    
+
+    <h1 class="ui grey header right">
+        <i class="photo icon"></i>
+        <div class="content">
+            <span class="username">{{ slide.name }}</span>
+            <div class="sub header">עריכת תמונה</div>
+        </div>
+    </h1>
+
+
+    <div class="left close">
+        <i class="icon remove circle olive big " onclick="$.kfModal.close();"></i>
+    </div>
+
+    <div class="clear"></div>
+
+
+    <div class="ui segment">
+
+        <div class="cloudinaryForm hidden">
+            {{ renderedCloudForm|raw }}
+        </div>
+
+        <div class="mar_top"></div>
+
+        <form class="ui form" id="slide_form" method="post">
+
+            <div class="field">
+
+
+                <div class="ui one column centered grid slide_image">
+                    <img alt="" src="">
+                </div>
+
+                <br><br><br>
+
+                <div class="ui one column centered grid upload_photo" onclick="$('.cloudinaryForm input[type=file]').click();">
+                    <button type="button" class="ui labeled icon green button">
+                        <i class="photo icon"></i>
+                        בחרו תמונה
+                    </button>
+                </div>
+
+                {{ form_widget(form.imageName) }}
+            </div>
+
+            <br><br>
+
+            <div class="ui indicating progress">
+                <div class="bar" id="upload_photo_progress"></div>
+                <div class="label" id="upload_photo_label">העלאה: <span>0</span>%</div>
+            </div>
+
+
+            <h3 class="ui horizontal divider header">
+                <i class="attach olive icon"></i>
+                טקסט
+            </h3>
+
+            <div class="ui grey large horizontal label">{{ form_label(form.name) }}</div>
+            <div class="field">
+                {{ form_widget(form.name) }}
+            </div>
+
+            <div class="ui grey large horizontal label">{{ form_label(form.headerType) }}</div>
+            <div class="field">
+                {{ form_widget(form.headerType) }}
+            </div>
+
+            <div class="ui grey large horizontal label">{{ form_label(form.content) }}</div>
+            <div class="field">
+                {{ form_widget(form.content) }}
+            </div>
+
+
+            <h3 class="ui horizontal divider header">
+                <i class="settings olive icon"></i>
+                הגדרות
+            </h3>
+
+            <div class="field">
+                <div class="ui grey large horizontal label">
+                    {{ form_label(form.isActive) }}
+                </div>
+                <div class="ui compact segment">
+                    <div class="ui slider fitted checkbox">
+                        {{ form_widget(form.isActive) }}
+                        <label></label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="ui divider"></div>
+            <br>
+            <br>
+
+            <div class="ui one column centered grid">
+                <button type="button" class="ui labeled icon green approve large button right" onclick="saveSlide({{ slide.id }}, $('#slide_form'));">
+                    <i class="save icon"></i>
+                    לשמור
+                </button>
+            </div>
+
+            {{ form_rest(form) }}
+
+        </form>
+
+
+
+
+
+        <br>
+        <br>
+
+
+        <div class="clear"></div>
+
+
+    </div>
+
+
+
+{% endblock %}

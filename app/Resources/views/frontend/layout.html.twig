@@ -1,0 +1,433 @@
+{% extends 'frontend/main_layout.html.twig' %}
+
+
+{% block container %}
+
+    {% set routeName = app.request.get('_route') %}
+    {% set routeArr = routeName|split('_') %}
+    {% set parentPageName = routeArr[0] %}
+
+
+    {% if routeName == 'user_users_online' or not app.user %}
+        {% set sidebarHeader = 'חברים חדשים' %}
+        {% set sidebarHeaderLink = path('user_homepage') %}
+        {% set sidebarUsers = getNewUsers() %}
+    {% else %}
+        {% set sidebarHeader = 'Online' %}
+        {% set sidebarHeaderLink = path('user_users_online') %}
+        {% set sidebarUsers = getUsersOnline() %}
+        {% set sidebarStat = true %}
+    {% endif %}
+
+    {% if app.user %}
+
+        {% set statistics = getStatistics() %}
+        {% set sidebarStat = false %}
+
+        <div class="bottom_menu">
+
+            <div class="item chat first {% if routeName == 'messenger' %}active{% endif %}" onclick="window.location.href = '{{ path('messenger') }}'">
+                <div class="lnk">
+                    <span>הודעות</span>
+                </div>
+                <div class="number {% if statistics.newMessagesNumber == 0  %}hidden{% endif %}">
+                    <div>{{ statistics.newMessagesNumber }}</div>
+                </div>
+            </div>
+            <div class="item notifications" onclick="window.location.href = '/'">
+                <div class="lnk">
+                    <span>התראות</span>
+                </div>
+                {#<div class="number">
+                    <div>4</div>
+                </div>#}
+            </div>
+            <div class="item arena" onclick="window.location.href = '/'">
+                <div class="lnk">
+                    <span>הזירה</span>
+                </div>
+            </div>
+
+            <div class="item online last {% if routeName == 'user_users_online' %}active{% endif %}" onclick="window.location.href = '{{ path('user_users_online') }}'">
+                <div class="lnk">
+                    <span>אונליין</span>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    {% endif %}
+
+
+
+
+
+
+<div class="main-container">
+
+    <div class="headerinn">
+        <div class="topbar">
+            {% if app.user %}
+                <ul class="wrap clearfix">
+                    <li>
+                        <a href="#popup1" class="view_my_profile">
+                            <span class="uimg">
+                                <img src="" alt=""></span> <span class="uname">היי {{ app.user.username }}
+                                <input id="top_thumb" type="hidden" value="{% if app.user.getMainPhoto is not null %}{{ app.user.getMainPhoto.name }}{% endif %}">
+                            </span>
+                            <input type="hidden" value="{{ app.user.id }}" id="my_user_id">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('logout') }}" class="logout">(התנתקות)</a>
+                    </li>
+                </ul>
+            {% else %}
+            	<div class="form wrap clearfix">
+                    <form action="{{ path('login_check') }}" method="post" id="login_form">
+                     	<input type="text" placeholder="שם משתמש או דוא״ל" class="txtbox" name="_username" value="" />
+                      	<input type="password" placeholder="סיסמה" class="txtbox" name="_password" />
+                     	<input type="button" value="כניסה" class="btn" onclick="$('#login_form').submit();" />
+                       	<a href="{{ path('password_recovery') }}" class="forgot-pwd">שכחת את הסיסמה?</a>
+                       	<input type="hidden" name="_target_path" value="{{ path('homepage') }}">
+                       	<div class="clearfix"></div>
+                  	</form>
+            	</div>
+            {% endif %}
+        </div>
+
+        <div class="logo-menu">
+            <div class="wrap clearfix">
+                <div class="innlogo"><a href="/"><img src="/images/logo.png" alt=""></a></div>
+
+                <div class="menu">
+                    <a href="#" class="tglmenu"></a>
+                    <div id="menu">
+                        <ul>
+                            <li><a href="{{ path('user_homepage') }}"{% if parentPageName == 'user' %} class="active"{% endif %}>עמוד הבית</a></li>
+                            {% if app.user %}
+                                <li><a href="{{ path('messenger') }}"{% if parentPageName == 'messenger' %} class="active"{% endif %}>הודעות</a></li>
+                            {% endif %}
+                            <li class="desktop"><a href="{{ path('magazine') }}"{% if parentPageName == 'magazine' %} class="active"{% endif %}>מגזין</a></li>
+                            {#<li><a href="#">בלוגים</a></li>#}
+                            {#<li><a href="#">פורומים</a></li>#}
+
+                            {#<li><a href="#">לרכישת מנוי</a></li>#}
+                            
+                            {% if app.user %}
+                            	<li class="mobileli">
+		                        	<a href="{{ path('mobile_user_lists') }}"{% if routeName == 'mobile_user_lists' %} class="active"{% endif %}>רשימות</a>
+		                    	</li>
+		                    	<li class="mobileli">
+		                        	<a href="{{ path('mobile_user_account') }}"{% if routeName == 'mobile_user_account' %} class="active"{% endif %}>ניהול חשבון</a>
+		                    	</li>
+            				{% endif %}
+            				<li><a href="{{ path('faq') }}"{% if parentPageName == 'faq' %} class="active"{% endif %}>שאלות ותשובות</a></li>
+                            {% if app.user and ((getSettings().isCharge and app.user.isPaying == false) or app.user.id == 111 or app.user.id == 124 or app.user.id == 3348) %}
+                                <li><a href="{{ path('user_payment') }}"{% if routeName == 'user_payment' %} class="active"{% endif %}>רכישת מנוי</a></li>
+                            {% endif %}
+            				<li><a href="{{ path('contact') }}"{% if parentPageName == 'contact' %} class="active"{% endif %}>צור קשר</a></li>
+            				{% if app.user %}
+            					<li class="mobileli">
+		                        	<a href="{{ path('logout') }}" class="logout">התנתקות</a>
+		                    	</li>
+		                    {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- headerinn end -->
+
+
+    <div class="innercont">
+        <div class="wrap clearfix">
+            
+            {% if app.request.attributes.get('_route') != 'users_public_list_user' %}
+
+                <div class="asideL desktop">
+                    <div class="greybox">
+                        {% if app.user %}
+                            <h3 class="clearfix">{% if sidebarStat %}<span>({{ statistics.users_online }})</span>{% endif %} <a href="{{ sidebarHeaderLink }}">{{ sidebarHeader }}</a></h3>
+                        {% else %}
+                            <h3 class="clearfix">{{ sidebarHeader }}</h3>
+                        {% endif %}
+
+                        <div class="greyboxmid clearfix">
+
+                            {% for user in sidebarUsers %}
+                                {#{% set dataPos = loop.index % 2 == 0 ? 'right center' : 'left center' %}#}
+
+                                {% set linkAttribs = app.user ? '' : 'href=' ~ path('sign_up') %}
+
+                                <div class="rptimgbox boxcont"
+                                 data-position="top right"
+                                 data-title="{{ user.username }}"
+                                 data-content="{{ user.age }}, {{ user.region.name }}">
+
+                                    <input type="hidden" class="userId" value="{{ user.id }}">
+                                    <input type="hidden" class="userGenderId" value="{{ user.gender.id }}">
+                                    <a {% if app.user %}class="f1" href="#popup1"{% else %}href="{{ path('sign_up') }}{% endif %}">
+                                        <img src="" alt="" class="sidebarPhoto">
+                                        <input type="hidden" value="{% if user.getMainPhoto is not null %}{{ user.getMainPhoto.name }}{% endif %}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+                <!-- asideL end -->
+
+            {% endif %}
+
+
+            {% block content %}{% endblock %}
+
+
+			{#
+            {% if app.request.attributes.get('_route') != 'users_public_list_user' %}
+                <div class="asideL mobile">
+                    <div class="greybox">
+                        {% if app.user %}
+                            <h3 class="clearfix">{% if sidebarStat %}<span>({{ statistics.users_online }})</span>{% endif %} <a href="{{ sidebarHeaderLink }}">{{ sidebarHeader }}</a></h3>
+                        {% else %}
+                            <h3 class="clearfix">{{ sidebarHeader }}</h3>
+                        {% endif %}
+
+                        <div class="greyboxmid clearfix">
+                            {% for user in sidebarUsers %}
+                                <div class="rptimgbox boxcont"
+                                     data-position="top right"
+                                     data-title="{{ user.username }}"
+                                     data-content="{{ user.age }}, {{ user.region.name }}">
+
+                                    <input type="hidden" class="userId" value="{{ user.id }}">
+                                    <input type="hidden" class="userGenderId" value="{{ user.gender.id }}">
+
+                                    <a {% if app.user %}class="f1" href="#popup1"{% else %}href="{{ path('sign_up') }}{% endif %}">
+                                        <img src="" alt="" class="sidebarPhoto">
+                                        <input type="hidden" value="{% if user.getMainPhoto is not null %}{{ user.getMainPhoto.name }}{% endif %}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!-- asideL end -->
+            {% endif %}
+			#}
+
+            <div class="asideR">
+                {% if app.user %}
+
+                    <div class="greybox2 desktop">
+                        {#
+                        <h3><span><a href="#" class="next"></a> <i><a href="#"><img src="/images/icon1.png" alt="" /></a></i> <a href="#" class="prev"></a></span> <a href="#" class="g2h">לזירה</a></h3>
+                        #}
+                        <ul>
+                            {#<li><a href="#"><i><img src="/images/icon1.png" alt="" /></i> <span class="oline">13 התראות מהזירה שלי</span></a></li>#}
+
+
+                            <li>
+                                <a href="{{ path('messenger') }}"><i><img src="/images/icon2.png" alt="" /></i>
+                                    <span class="oline">
+                                         הודעות חדשות
+                                        ({{ statistics.newMessagesNumber }})
+                                    </span>
+
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ path('user_users_online') }} "><i><img src="/images/icon3.png" alt="" /></i>
+                                    <span>
+                                        חברים אונליין
+                                        ({{ statistics.users_online }})
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- end -->
+
+                    <div class="greybox desktop">
+                        <a href="#" class="tgl">רשימות</a>
+                        <h3>רשימות</h3>
+                        <div class="greyboxmid">
+                            <ul>
+                                <li>
+                                    <a href="{{ path('user_list_viewed_me') }}">
+                                        <i><img src="/images/right-menu-2.png" alt="" /></i> צפו בי
+                                        {% if statistics.viewedMe > 0 %}<span>({{ statistics.viewedMe }})</span>{% endif %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_list_viewed') }}">
+                                        <i><img src="/images/right-menu-3.png" alt="" /></i> צפיתי בהם
+                                        {% if statistics.viewed > 0 %}<span>({{ statistics.viewed }})</span>{% endif %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_list_connected') }}">
+                                        <i><img src="/images/right-menu-4.png" alt="" /></i> פניתי אליהם
+                                        {% if statistics.connected > 0 %}<span>({{ statistics.connected }})</span>{% endif %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_list_connected_me') }}">
+                                        <i><img src="/images/right-menu-5.png" alt="" /></i> פנו אלי
+                                        {% if statistics.connectedMe > 0 %}<span>({{ statistics.connectedMe }})</span>{% endif %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_list_favorited') }}">
+                                        <i><img src="/images/right-menu-6.png" alt="" /></i> צרפתי למועדפים
+                                        {% if statistics.favorited > 0 %}<span>({{ statistics.favorited }})</span>{% endif %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_list_favorited_me') }}">
+                                        <i><img src="/images/right-menu-7.png" alt="" /></i> צרפו אותי למועדפים
+                                        {% if statistics.favoritedMe > 0 %}<span>({{ statistics.favoritedMe }})</span>{% endif %}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('user_list_black_listed') }}">
+                                        <i><img src="/images/right-menu-8.png" alt="" /></i> חסומים
+                                        {% if statistics.blacklisted > 0 %}<span>({{ statistics.blacklisted }})</span>{% endif %}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end -->
+
+                    {% set sidebarForm = getQuickSearchSidebarForm() %}
+
+                    <div class="greybox3 desktop">
+                        <h3 class="tgl_qs">חיפוש מהיר</h3>
+                        <form action="{{ path('user_search_results') }}" method="post" id="quick_search_sidebar_form">
+
+                            <div class="field">
+                                <label>{{ form_label(sidebarForm.ageFrom) }}</label>
+                                <div class="field2">
+                                    <div class="select">
+                                        {{ form_widget(sidebarForm.ageTo) }}
+                                    </div>
+                                    <span>{{ form_label(sidebarForm.ageTo) }}</span>
+                                    <div class="select">
+                                        {{ form_widget(sidebarForm.ageFrom) }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>{{ form_label(sidebarForm.region) }}</label>
+                                <div class="field2 sidebarCheckboxes">
+                                    <div class="half">
+                                        {% for region in sidebarForm.region %}
+                                        {% if loop.index == 6 %}
+                                    </div>
+                                    <div class="half">
+                                        {% endif %}
+                                        <span class="chkbox">
+                                            <div class="ui checkbox region">
+                                                {{ form_widget(region) }}
+                                                {{ form_label(region) }}
+                                            </div>
+                                        </span>
+                                        {% endfor %}
+                                    </div>
+                                    <div class="half">
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>{{ form_label(sidebarForm.type) }}</label>
+                                <div class="field2 cb sidebarCheckboxes">
+                                    {% for type in sidebarForm.type %}
+                                        <div class="ui checkbox type">
+                                            {{ form_widget(type) }}
+                                            {{ form_label(type) }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label>{{ form_label(sidebarForm.username) }}</label>
+                                <div class="field2">
+                                    {{ form_widget(sidebarForm.username) }}
+                                    <input type="submit" value="חפש" class="btn" />
+                                </div>
+                            </div>
+
+                            {{ form_rest(sidebarForm) }}
+
+
+
+                        </form>
+                    </div>
+                    <!-- end -->
+
+                    <div class="greybox desktop">
+                        <a href="#" class="tgl">ניהול חשבון</a>
+                        <h3>ניהול חשבון</h3>
+                        <div class="greyboxmid">
+                            <ul>
+                                <li><a href="{{ path('user_profile') }}"><i><img src="/images/right-menu-9.png" alt="" /></i> עריכת פרופיל</a></li>
+                                <li><a href="{{ path('user_profile', {'tab': 4}) }}"><i><img src="/images/right-menu-10.png" alt="" /></i> עריכת תמונות</a></li>
+                                <li><a href="{{ path('user_manage_list_favorited') }}"><i><img src="/images/right-menu-11.png" alt="" /></i> ניהול רשימת מועדפים</a></li>
+                                <li><a href="{{ path('user_change_password') }}"><i><img src="/images/right-menu-12.png" alt="" /></i> עדכון סיסמה</a></li>
+                                <li><a href="{{ path('user_settings') }}"><i><img src="/images/right-menu-13.png" alt="" /></i> הגדרת הודעות</a></li>
+                                <li><a href="{{ path('user_manage_list_black_listed') }}"><i><img src="/images/right-menu-14.png" alt="" /></i> ניהול רשימת חסומים</a></li>
+                                <li><a href="{{ path('user_freeze_account') }}"><i><img src="/images/right-menu-15.png" alt="" /></i> הקפאת חשבון</a></li>
+                                <li><a href="{{ path('user_search_advanced') }}"><i><img src="/images/right-menu-16.png" alt="" /></i> חיפוש מתקדם</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- end -->
+                {% endif %}
+
+                {% if app.user %}
+                    {#<div class="greybox2 ad">
+                        <a href="#"><img src="/images/ad.jpg" alt="" /></a>
+                    </div>#}
+                {% else %}
+                    <div class="greybox2 ad">
+                        <a href="{{ path('sign_up') }}"><img src="/images/free_reg_banner.png" alt="" /></a>
+                    </div>
+                {% endif %}
+                <!-- end -->
+            </div>
+
+            <!-- asideR end -->
+        </div>
+    </div>
+    <!-- innercont end -->
+
+
+</div><!-- Main Container -->
+
+<input type="hidden" id="no_photo_url_1" value="/images/no_photo_1.jpg">
+<input type="hidden" id="no_photo_url_2" value="/images/no_photo_2.jpg">
+
+{% if app.user %}
+
+    <input type="hidden" id="current_user_gender" value="{{ app.user.gender.id }}">
+    <input type="hidden" id="search_filter_by_default" value="lastActivity">
+    <input type="hidden" id="search_url_when_switching_filter" value="{{ app.request.requesturi }}">
+
+{% else %}
+    <input type="hidden" id="search_url_when_switching_filter" value="{{ path('users_public_list', {'page': 1}) }}">
+{% endif %}
+
+
+{% endblock %}
+

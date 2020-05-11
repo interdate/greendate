@@ -1,0 +1,99 @@
+{% set settings = getSettings() %}
+{% set minutesNumberConsideredAsOnline = settings.userConsideredAsOnlineAfterLastActivityMinutesNumber %}
+{% set daysNumberConsideredAsNew = settings.getUserConsideredAsNewAfterDaysNumber %}
+
+
+{% set add_to_fav = true %}
+{% set delete_from_fav = false %}
+{% set add_to_black_list = true %}
+{% set delete_from_black_list = false %}
+
+
+
+{% if app.request.attributes.get('_route') == 'user_manage_list_favorited' %}
+    {% set add_to_fav = false %}
+    {% set delete_from_fav = true %}
+{% else %}
+    {% if app.request.attributes.get('_route') == 'user_list_favorited' %}
+        {% set add_to_fav = false %}
+    {% else %}
+        {% if app.request.attributes.get('_route') == 'user_manage_list_black_listed' %}
+            {% set delete_from_black_list = true %}
+            {% set add_to_black_list = false %}
+        {% else %}
+            {% if app.request.attributes.get('_route') == 'user_list_black_listed' %}
+                {% set add_to_black_list = false %}
+            {% endif %}
+        {% endif %}
+
+    {% endif %}
+{% endif %}
+
+{% for user in users %}
+    <div class="boxcont">
+        <input type="hidden" class="userId" value="{{ user.id }}">
+        <input type="hidden" class="userGenderId" value="{{ user.gender.id }}">
+        <div class="greyboxcont clearfix">
+            <div class="userimg">
+                <a class="f1" href="#popup1">
+                    <img src="" alt="" class="resultsPhoto">
+                    <input type="hidden" value="{% if user.getMainPhoto is not null %}{{ user.getMainPhoto.name }}{% endif %}">
+                </a>
+                {% if user.isPaying %}<div class="queen-icon"></div>{% endif %}
+            </div>
+
+            <div class="lftcontbox clearfix">
+                <div class="onlinediv clearfix">
+                    {% if user.isOnline(minutesNumberConsideredAsOnline) %}
+                        <a href="{{ path('messenger_dialog_open',{'userId': app.user.id, 'contactId': user.id}) }}">
+                            <div class="imgbox"><img src="/images/main-pg-online-icon.png" alt=""></div>
+                            <div class="statustitle">On<span>line</span></div>
+                        </a>
+                    {% endif %}
+                </div>
+                <div class="subtitle clearfix">
+                    <div class="subtitletext"><a class="f1" href="#popup1">{{ user.username }}</a></div>
+                    <div class="imgicon">{% if user.isNew(daysNumberConsideredAsNew) %}<img src="/images/main-pg-subtitle-icon.png" alt="">{% endif %}</div>
+                </div>
+
+                <div class="midcontdes">
+                    {{ user.age }}, {{ user.city.name }}
+                    <br>{{ user.relationshipStatus.name }}
+                    <br>{{ user.type.name }}
+                </div>
+                <div class="midcontdes">
+                    <strong>קצת עליי</strong>
+                    {{ user.about|length > 50 ? user.about|slice(0, 50) ~ '...' : user.about  }}
+                </div>
+            </div>
+        </div>
+
+        <div class="lightgrey clearfix">
+            <ul class="smlinks clearfix">
+                {% if app.user.id != user.id %}
+                    <li><a href="{{ path('messenger_dialog_open',{'userId': app.user.id, 'contactId': user.id}) }}"><span>שלח הודעה</span></a></li>
+                    <li><a class="f1" href="#popup1">לפרופיל המלא</a></li>
+
+                    {% if add_to_fav %}
+                        <li><a class="add_to_fav" href="#">הוסף למועדפים</a></li>
+                    {% endif %}
+
+                    {% if delete_from_fav %}
+                        <li><a class="delete_from_fav" href="#">הסרה מרשימת המועדפים</a></li>
+                    {% endif %}
+
+                    {% if add_to_black_list %}
+                        <li><a class="add_to_back_list" href="#">חסימה</a></li>
+                    {% endif %}
+
+                    {% if delete_from_black_list %}
+                        <li><a class="delete_from_black_list" href="#">הסרה מרשימת החסומים</a></li>
+                    {% endif %}
+
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endfor %}
+
+

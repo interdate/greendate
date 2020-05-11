@@ -1,0 +1,16 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: localhost
+    database_port: null
+    database_name: greendat_greendate_db
+    database_user: greendat_user
+    database_password: 6GhX)BI)WqrC
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_user: null
+    mailer_password: null
+    #mailer_transport: gmail
+    #mailer_host: smtp.gmail.com
+    #mailer_user: pavel@interdate-ltd.co.il
+    #mailer_password: "raaejijboufhrxxv"
+    secret: da79aa7d66280ce9c851046d125061524e75b954

@@ -1,0 +1,13 @@
+open_api_v1:
+    type:     rest
+    prefix:   /
+    resource: AppBundle\Controller\Api\V1\OpenController
+    name_prefix:  api_1_open
+
+open_api_v2:
+    type:     rest
+    prefix:   /v2
+    resource: AppBundle\Controller\Api\V2\OpenController
+    name_prefix:  api_2_open
+
+
